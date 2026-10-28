@@ -13,17 +13,55 @@
     "site_specific_exceptions": "Assume none",
     "street": "Assume this lot does not abut a major street",
     "storeys": 2,
-    "floor_to_floor": 3.0
+    "floor_to_floor": 3.0,
+    "storey_overlay": "No ST value"
   },
   "rules": {
-    "front_setback": {"value": 6.0, "clause": "10.20.40.70(1)", "condition": "If 10.5.40.70(1) does not apply"},
-    "rear_setback": {"value": 9.0, "clause": "10.20.40.70(2)", "calculation": "max(7.5, 0.25 * 36)"},
-    "side_setback": {"value": 1.5, "clause": "10.20.40.70(3)(D)", "condition": "Required minimum lot frontage is 15 to less than 18 metres"},
-    "building_length": {"value": 17.0, "clause": "10.20.40.20(1)"},
-    "overall_height": {"value": 10.0, "clause": "10.20.40.10(1)(B)", "condition": "No HT overlay value"},
-    "flat_roof_main_wall_height": {"value": 7.5, "clause": "10.20.40.10(4)(A)", "calculation": "max(7.2, 10 - 2.5)"},
-    "coverage": {"value": 0.35, "clause": "10.20.30.40(1)(A)", "condition": "35 percent overlay is an example assumption"},
-    "floor_space_index": {"value": 0.6, "clause": "10.20.40.40(1)(A)", "condition": "d0.6 zone label is an example assumption"}
+    "front_setback": {
+      "value": 6.0,
+      "clause": "10.20.40.70(1)",
+      "condition": "If 10.5.40.70(1) does not apply"
+    },
+    "rear_setback": {
+      "value": 9.0,
+      "clause": "10.20.40.70(2)",
+      "calculation": "max(7.5, 0.25 * 36)"
+    },
+    "side_setback": {
+      "value": 1.5,
+      "clause": "10.20.40.70(3)(D)",
+      "condition": "Required minimum lot frontage is 15 to less than 18 metres"
+    },
+    "building_length": {
+      "value": 17.0,
+      "clause": "10.20.40.20(1)"
+    },
+    "overall_height": {
+      "value": 10.0,
+      "clause": "10.20.40.10(1)(B)",
+      "condition": "No HT overlay value"
+    },
+    "flat_roof_main_wall_height": {
+      "value": 7.5,
+      "clause": "10.20.40.10(4)(A)",
+      "calculation": "max(7.2, 10 - 2.5)"
+    },
+    "coverage": {
+      "value": 0.35,
+      "clause": "10.20.30.40(1)(A)",
+      "condition": "35 percent overlay is an example assumption"
+    },
+    "floor_space_index": {
+      "value": 0.6,
+      "clause": "10.20.40.40(1)(A)",
+      "condition": "d0.6 zone label is an example assumption"
+    },
+    "minimum_lot_area": {
+      "value": 450,
+      "clause": "10.20.30.10(1)(B)",
+      "calculation": "15 * 30, assuming no a value"
+    }
   },
-  "scope": "Selected zoning rules for a classroom model. A real site needs map, exception, amendment and full code checks."
+  "scope": "Selected zoning rules for a classroom model. A real site needs map, exception, amendment and full code checks.",
+  "checked_on": "2026-10-28"
 }

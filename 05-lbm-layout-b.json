@@ -17,7 +17,7 @@
   "boundary": "parabolic left inlet, right pressure, no-slip top/bottom, halfway obstacle bounce-back",
   "scope": "2D laminar channel in lattice units. No atmospheric boundary layer or vertical flow. No grid convergence study.",
   "footprint_count": 3,
-  "elapsed_seconds": 2.551,
+  "elapsed_seconds": 2.546,
   "mesh_faces": 10240,
   "vectors": 152
 }

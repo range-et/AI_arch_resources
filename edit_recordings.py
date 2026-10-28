@@ -1,34 +1,25 @@
-"""Cut real OBS footage into a short walkthrough. Keep raw files in working/recordings.
-Run: working/venv/bin/python edit_recordings.py
-Requires ffmpeg and Pillow. Captions label cuts and playback speed.
+"""Edit real OBS recordings using recordings.json. Requires ffmpeg and Pillow.
+Run python edit_recordings.py. Original MOV files belong in working/recordings.
+If absent there, the script copies them from ~/Movies. No UI is reconstructed.
 """
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
-import subprocess
-import shutil
+import json,subprocess,shutil
+from PIL import Image,ImageDraw,ImageFont
 ROOT=Path(__file__).resolve().parent
-WORK=ROOT/'working'/'recordings'
-WORK.mkdir(parents=True,exist_ok=True)
-movies=Path.home()/'Movies'
-for name in ['2026-10-28 18-30-28.mov','2026-10-28 18-31-49.mov']:
-    target=WORK/name
-    if not target.exists(): shutil.copy2(movies/name,target)
-segments=[
- ('2026-10-28 18-30-28.mov',0,64,2,'1. Read the source: D2Q9 / TRT in jviquerat/lbm (2x)'),
- ('2026-10-28 18-31-49.mov',205,95,2,'2. Build the GH tool, inspect an error, and fix curve input (2x)'),
- ('2026-10-28 18-31-49.mov',630,38,1,'3. Read the connected GH inputs and solver report'),
- ('2026-10-28 18-31-49.mov',668,17,1,'4. Inspect the first flow field in Rhino'),
- ('2026-10-28 18-31-49.mov',747,48,1,'5. Export layout A; change the middle block from 0 to -12'),
- ('2026-10-28 18-31-49.mov',795,39,1,'6. Inspect the Python adapter, changed report, and layout B'),
-]
-clips=[]
-for i,(source,start,duration,speed,title) in enumerate(segments):
-    cap=Image.new('RGB',(1920,74),'#162029');d=ImageDraw.Draw(cap)
-    font=ImageFont.truetype('/System/Library/Fonts/Supplemental/Arial.ttf',30)
-    d.text((30,19),title,fill='white',font=font)
-    label=WORK/f'caption-{i}.png';cap.save(label)
-    clip=WORK/f'cut-{i}.mp4';clips.append(clip)
-    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-ss',str(start),'-t',str(duration),'-i',str(WORK/source),'-i',str(label),'-filter_complex',f'[0:v]setpts=PTS/{speed},fps=30[v];[v][1:v]overlay=0:0[out]','-map','[out]','-an','-c:v','libx264','-preset','fast','-crf','20','-pix_fmt','yuv420p',str(clip)],check=True)
-concat=WORK/'concat.txt';concat.write_text(''.join(f"file '{p}'\n" for p in clips))
-subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-f','concat','-safe','0','-i',str(concat),'-c','copy','-movflags','+faststart',str(ROOT/'05-lbm-to-grasshopper.mp4')],check=True)
-print(ROOT/'05-lbm-to-grasshopper.mp4')
+WORK=ROOT/'working'/'recordings';WORK.mkdir(exist_ok=True,parents=True)
+manifest=json.loads((ROOT/'recordings.json').read_text())
+fontpath='/System/Library/Fonts/Supplemental/Arial.ttf'
+font=ImageFont.truetype(fontpath,28) if Path(fontpath).exists() else ImageFont.truetype('DejaVuSans.ttf',28)
+for video in manifest['videos']:
+    cuts=[]
+    for i,(name,start,duration,speed,title) in enumerate(video['segments']):
+        src=WORK/name
+        if not src.exists():shutil.copy2(Path.home()/'Movies'/name,src)
+        stem=Path(video['output']).stem
+        cap=Image.new('RGB',(1920,74),'#162029');ImageDraw.Draw(cap).text((26,20),title,font=font,fill='white')
+        label=WORK/f'{stem}-{i}.png';cap.save(label)
+        cut=WORK/f'{stem}-{i}.mp4';cuts.append(cut)
+        subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-ss',str(start),'-t',str(duration),'-i',str(src),'-i',str(label),'-filter_complex',f'[0:v]setpts=PTS/{speed},fps=30,scale=1920:1080[v];[v][1:v]overlay=0:0[out]','-map','[out]','-an','-c:v','libx264','-preset','veryfast','-crf','19','-pix_fmt','yuv420p',str(cut)],check=True)
+    concat=WORK/f'{stem}-concat.txt';concat.write_text(''.join(f"file '{p}'\n" for p in cuts))
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-f','concat','-safe','0','-i',str(concat),'-c','copy','-movflags','+faststart',str(ROOT/video['output'])],check=True)
+    print(video['output'],flush=True)

@@ -1,0 +1,81 @@
+{
+  "01-install-check.3dm": {
+    "objects": 1,
+    "all_valid": true,
+    "breps_closed": true
+  },
+  "02-command-selection.3dm": {
+    "objects": 2,
+    "all_valid": true,
+    "breps_closed": true
+  },
+  "03-habitat-massing.3dm": {
+    "objects": 1,
+    "all_valid": true,
+    "breps_closed": true
+  },
+  "04-tower-a.3dm": {
+    "objects": 13,
+    "all_valid": true,
+    "breps_closed": true
+  },
+  "04-tower-b.3dm": {
+    "objects": 13,
+    "all_valid": true,
+    "breps_closed": true
+  },
+  "20-toronto-lot-a.3dm": {
+    "objects": 3,
+    "all_valid": true,
+    "breps_closed": true
+  },
+  "20-toronto-lot-b.3dm": {
+    "objects": 3,
+    "all_valid": true,
+    "breps_closed": true
+  },
+  "zoning": {
+    "A_reproduced": true,
+    "B_reproduced": true,
+    "invalid_lots_rejected": true
+  },
+  "presentation": {
+    "slides": 30,
+    "demo_labels_and_notes_present": true
+  },
+  "01-rhino-mcp-install.mp4": {
+    "duration_seconds": 113.58,
+    "codec": "h264",
+    "dimensions": "1920x1080"
+  },
+  "02-command-selection.mp4": {
+    "duration_seconds": 40.0,
+    "codec": "h264",
+    "dimensions": "1920x1080"
+  },
+  "03-habitat-prompt.mp4": {
+    "duration_seconds": 29.0,
+    "codec": "h264",
+    "dimensions": "1920x1080"
+  },
+  "04-parametric-tower.mp4": {
+    "duration_seconds": 66.0,
+    "codec": "h264",
+    "dimensions": "1920x1080"
+  },
+  "05-lbm-to-grasshopper.mp4": {
+    "duration_seconds": 111.67,
+    "codec": "h264",
+    "dimensions": "1920x1080"
+  },
+  "20-toronto-zoning.mp4": {
+    "duration_seconds": 73.5,
+    "codec": "h264",
+    "dimensions": "1920x1080"
+  },
+  "21-autodesk-published-demo.mp4": {
+    "duration_seconds": 23.0,
+    "codec": "h264",
+    "dimensions": "1920x1080"
+  }
+}

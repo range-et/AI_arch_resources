@@ -1,0 +1,11 @@
+{
+  "command_sequence": [
+    "Revolve",
+    "Cap",
+    "Check"
+  ],
+  "valid": true,
+  "closed_solid": true,
+  "face_count": 2,
+  "volume_m3": 2508.2475823798864
+}

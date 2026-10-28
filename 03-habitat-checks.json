@@ -1,0 +1,12 @@
+{
+  "prompt": "Build Habitat 67",
+  "interpretation": "Approximate stepped massing using assumed module dimensions and layout",
+  "modules": 126,
+  "mesh_vertices": 1008,
+  "quad_faces": 756,
+  "valid_mesh": true,
+  "closed_mesh": true,
+  "fidelity_checked": false,
+  "scope": "No reconstruction of original plans, circulation, structure or dwelling layouts. Geometric validity does not establish architectural accuracy.",
+  "reference": "https://www.safdiearchitects.com/projects/habitat-67"
+}

@@ -1,0 +1,10 @@
+{
+  "floors": 12,
+  "total_twist_degrees": 0.0,
+  "storey_height_m": 3.2,
+  "overall_height_m": 35.45,
+  "slab_width_m": 12,
+  "valid_closed_slabs": 12,
+  "valid_closed_core": true,
+  "scope": "Parametric geometry study; structure and circulation are not designed."
+}

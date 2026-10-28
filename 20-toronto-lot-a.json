@@ -1,0 +1,28 @@
+{
+  "lot_width_m": 15.0,
+  "lot_depth_m": 36.0,
+  "lot_area_m2": 540.0,
+  "minimum_lot_area_m2": 450.0,
+  "front_setback_m": 6.0,
+  "rear_setback_m": 9.0,
+  "side_setback_m": 1.5,
+  "buildable_width_m": 12.0,
+  "geometric_length_cap_m": 17.0,
+  "flat_roof_height_cap_m": 7.5,
+  "coverage_cap_m2": 189.0,
+  "floor_area_cap_m2": 324.0,
+  "example_footprint_m2": 162.0,
+  "example_length_m": 13.5,
+  "example_height_m": 6.0,
+  "example_floor_area_m2": 324.0,
+  "checks_passed": {
+    "frontage": true,
+    "lot_area": true,
+    "setbacks": true,
+    "length": true,
+    "height": true,
+    "coverage": true,
+    "floor_area": true
+  },
+  "scope": "Selected zoning rules for an assumed RD(f15)(d0.6) lot. Coverage 35% is assumed. Full zoning and Building Code compliance are outside this example."
+}

@@ -1,17 +1,25 @@
 # Demo plan
 
-The priority order is repository cleanup, recorded installation, then the LBM port. The first three steps are now complete. This inventory records what the existing slides contain and what still needs a recording.
+The work followed this order: clean the repository, record the real Rhino MCP installation, record the LBM adaptation, then finish the other slide demos. Final presentation files are at the root. Older attempts and working notes are in the ignored `working/` folder.
 
-| Slide | Existing material | Demo and check | State |
+## Slide inventory and run order
+
+| Slide | Starting material | Finished demo | Teaching point |
 | --- | --- | --- | --- |
-| 15 | Rhino MCP setup | Install from Package Manager; restart Rhino; connect Codex; start listener; make and inspect a torus. | OBS video and saved model ready. |
-| 16 | Target sketch and command sequence | Show the sketch, retrieve relevant Rhino commands, execute the chosen sequence, inspect the resulting surfaces. Check the command choice against the actual sketch. | Recording pending. |
-| 17 | Prompt: “Build Habitat 67” | Run the prompt once. Inspect the actual result, its object types and validity. Report the observed limitations. The slide's claim that direct coordinates always produce irregular geometry needs revision based on that result. | Recording pending. |
-| 18 | Placeholder prompt and GH script diagram | Use a specific prompt for a parametric building study. Show generated code in the Python editor, connect sliders, change a parameter, and check changed geometry. The footprint component in the LBM demo is already one working example. | Separate recording pending. |
-| 19 | Horizontal airflow slice | Read jviquerat/lbm, adapt the D2Q9/TRT code, connect closed footprints, solve, move one block, solve again, inspect reports and export both results. | OBS walkthrough, full session, GH file, code, two models and checks ready. |
-| 20 | Regulatory text to building envelope | Show the official Toronto RD clauses, list lot assumptions, extract numbers with clause references, build the envelope in GH, and change lot depth. Check setbacks, height, coverage and FSI separately. | Fictional lot data and Rhino model exist; GH workflow and recording pending. |
-| 21 | Autodesk AEC foundation model diagram | Use a documented Autodesk example or an accessible product session. Check the stated LOD and editability claims against the source before presenting them. | Source check and demo pending. |
+| 15 | Rhino MCP setup diagram | Actual Package Manager installation, Rhino restart, connection and torus check | Connect the design application and confirm that a tool call changes its model. |
+| 16 | Target sketch and suggested command list | Radial profile, Revolve, Cap, Check | Choose native CAD operations for a stated form. |
+| 17 | “Build Habitat 67” and direct coordinate generation | Python script, approximate massing and closed-mesh check | Geometric validity and architectural fidelity require separate checks. |
+| 18 | Prompt and parametric-script placeholders | 12-floor tower, Python component, twist 0 to 60 degrees | A script can expose parameters that the CAD engine evaluates. |
+| 19 | Airflow slice | GitHub source, NumPy port, GH adapter, two solved layouts | Relevant source code can become a design tool after adapting inputs and outputs and testing the result. |
+| 20 | Regulatory text to envelope diagram | Official Toronto clauses, fictional lot assumptions, working GH model and depth change | Check clause conditions before turning values into geometry. |
+| 21 | Autodesk foundation-model diagram and keynote link | Source-checked Building Layout Explorer description and attributed vendor excerpt | Compare a documented product example with the locally tested tools. |
 
-For slide 19, the teaching point is that students can find useful research code and adapt it into a tool with inputs they can control. Show the source and licence before showing the GH result. Keep both layouts on the same grid, time steps, inlet speed, viscosity and colour scale. The saved reports show that moving one footprint changes the solution.
+## Playback
 
-Use the short recordings during the talk. Keep the continuous OBS session available for questions about the build process. All future recordings should show the actual prompt, code or command, input change and visible result.
+Use the videos in the README table in slide order. Total playback is about nine and a quarter minutes. Pause after each clip for discussion. Keep the GH files available for changing inputs during questions.
+
+For the LBM clip, point out the source credit, the retained TRT routines, the footprint mask and the report. Compare layouts with the same numerical settings and colour scale. The reports confirm that the changed footprint changes the field. The numerical checks establish reproduction and input response. They do not establish physical accuracy.
+
+For Toronto, state the fictional zone and lot first. Show the selected clause conditions and declared assumptions before the model. Reducing depth changes both the rear setback and the permitted floor-area calculation.
+
+The Autodesk clip is a published vendor demonstration. It was not run independently in a local Forma account. The local Rhino and Grasshopper clips show software execution from prepared commands and scripts, including parameter changes and saved results. They are edited OBS captures with labelled cuts and speeds.

@@ -1,0 +1,5 @@
+/working/
+.DS_Store
+*.rhl
+*.3dmbak
+__pycache__/

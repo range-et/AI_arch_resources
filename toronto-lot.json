@@ -1,0 +1,29 @@
+{
+  "site": "Fictional interior lot in Toronto",
+  "use": "Detached house without a secondary suite",
+  "units": "metres",
+  "source": "https://www.toronto.ca/zoning/bylaw_amendments/ZBL_NewProvision_Chapter10_20.htm",
+  "lot_width": 15.0,
+  "lot_depth": 36.0,
+  "assumptions": {
+    "zone_label": "RD(f15.0)(d0.6)",
+    "coverage_overlay_percent": 35,
+    "height_overlay": "No HT value",
+    "front_yard_averaging": "Assume 10.5.40.70(1) does not apply",
+    "site_specific_exceptions": "Assume none",
+    "street": "Assume this lot does not abut a major street",
+    "storeys": 2,
+    "floor_to_floor": 3.0
+  },
+  "rules": {
+    "front_setback": {"value": 6.0, "clause": "10.20.40.70(1)", "condition": "If 10.5.40.70(1) does not apply"},
+    "rear_setback": {"value": 9.0, "clause": "10.20.40.70(2)", "calculation": "max(7.5, 0.25 * 36)"},
+    "side_setback": {"value": 1.5, "clause": "10.20.40.70(3)(D)", "condition": "Required minimum lot frontage is 15 to less than 18 metres"},
+    "building_length": {"value": 17.0, "clause": "10.20.40.20(1)"},
+    "overall_height": {"value": 10.0, "clause": "10.20.40.10(1)(B)", "condition": "No HT overlay value"},
+    "flat_roof_main_wall_height": {"value": 7.5, "clause": "10.20.40.10(4)(A)", "calculation": "max(7.2, 10 - 2.5)"},
+    "coverage": {"value": 0.35, "clause": "10.20.30.40(1)(A)", "condition": "35 percent overlay is an example assumption"},
+    "floor_space_index": {"value": 0.6, "clause": "10.20.40.40(1)(A)", "condition": "d0.6 zone label is an example assumption"}
+  },
+  "scope": "Selected zoning rules for a classroom model. A real site needs map, exception, amendment and full code checks."
+}

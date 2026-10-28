@@ -1,0 +1,7 @@
+Adapt https://github.com/jviquerat/lbm into a Grasshopper Python 3 tool for a horizontal building slice.
+
+Keep the D2Q9/TRT numerical routines and the source credit. Replace the Numba dependency with NumPy for this small classroom example.
+
+Take closed footprint curves from Grasshopper. Use them as obstacles on a 160 x 64 grid. Give me inputs for steps, inlet speed and viscosity through tau. Show a coloured velocity mesh and sampled flow vectors in Rhino. Return a plain report with stability checks.
+
+Start with three blocks. Add a slider that moves the middle footprint, solve again and show the changed field. Save the GH definition and every code file beside it at the repo root. Record the source review, component setup, code and the two working results.

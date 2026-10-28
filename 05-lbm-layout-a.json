@@ -1,0 +1,23 @@
+{
+  "method": "D2Q9 TRT, adapted from jviquerat/lbm",
+  "grid": [
+    160,
+    64
+  ],
+  "steps": 1800,
+  "inlet_peak": 0.03,
+  "tau_plus": 0.65,
+  "tau_minus": 2.1666666666666665,
+  "solid_cells": 480,
+  "max_speed": 0.055922312383566986,
+  "mean_fluid_speed": 0.022901244907063023,
+  "max_checked_density_deviation": 0.03427297670069551,
+  "finite": true,
+  "positive_density": true,
+  "boundary": "parabolic left inlet, right pressure, no-slip top/bottom, halfway obstacle bounce-back",
+  "scope": "2D laminar channel in lattice units. No atmospheric boundary layer or vertical flow. No grid convergence study.",
+  "footprint_count": 3,
+  "elapsed_seconds": 2.39,
+  "mesh_faces": 10240,
+  "vectors": 152
+}

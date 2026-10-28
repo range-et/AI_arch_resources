@@ -1,0 +1,14 @@
+{
+  "a": {
+    "shift": 0,
+    "peak_speed": 0.055922312383566986,
+    "matches_Grasshopper": true
+  },
+  "b": {
+    "shift": -12,
+    "peak_speed": 0.04985924265828024,
+    "matches_Grasshopper": true
+  },
+  "maximum_field_change": 0.05503396250524403,
+  "scope": "Reproduction and input response checks. Physical accuracy and grid convergence were not assessed."
+}

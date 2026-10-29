@@ -20,10 +20,14 @@ document.addEventListener('keydown', event => {
   if (event.key === 'End') {event.preventDefault(); go(slides.length - 1);}
 });
 const observer = new IntersectionObserver(entries => {
-  for (const entry of entries) if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
+  for (const entry of entries) {
+    const player = entry.target.querySelector('iframe');
+    if (player && !entry.isIntersecting) player.contentWindow?.postMessage(JSON.stringify({event: 'command', func: 'pauseVideo', args: []}), 'https://www.youtube-nocookie.com');
+    if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
     current = slides.indexOf(entry.target);
     jump.value = String(current);
     history.replaceState(null, '', '#' + entry.target.id);
+    }
   }
 }, {threshold: [0.55]});
 slides.forEach(slide => observer.observe(slide));

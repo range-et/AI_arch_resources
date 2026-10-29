@@ -20,6 +20,10 @@ NS = {'a': 'http://schemas.openxmlformats.org/drawingml/2006/main',
       'r': 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'}
 def esc(s): return html.escape(s, quote=True)
 
+def asset(path):
+    digest = hashlib.sha256((ROOT/path).read_bytes()).hexdigest()[:10]
+    return f'{path}?v={digest}'
+
 DOT_PATTERN = '<pattern id="web-dot-grid" width="15" height="15" patternUnits="userSpaceOnUse"><circle cx="7.5" cy="7.5" r="0.5" fill="#c9ced4" fill-opacity="0.65"/></pattern>'
 GRID_IMAGE_HASHES = {
     'source-7': '7212bb6a7cc9',
@@ -80,7 +84,7 @@ def build(pdf):
     sections = []
     for s in slides:
         n = s['number']; title = s['title']; text = s['text']
-        body = f'<img src="web/slides/slide-{n:02}.svg" alt="{esc(text)}" loading="{"eager" if n == 1 else "lazy"}" width="1280" height="720">'
+        body = f'<img src="{asset(f'web/slides/slide-{n:02}.svg')}" alt="{esc(text)}" loading="{"eager" if n == 1 else "lazy"}" width="1280" height="720">'
         extra = '<div class="source-links">' + ' · '.join(f'<a href="{esc(link["url"])}" target="_blank" rel="noopener">{esc(link["label"])}</a>' for link in s['links']) + '</div>' if s['links'] else ''
         if n in by_slide:
             v = by_slide[n]; title = v['title']; s['video'] = v
@@ -91,7 +95,7 @@ def build(pdf):
         sections.append(f'<section class="slide" id="slide-{n:02}" aria-label="Slide {n}: {esc(title)}"><div class="slide-content"><div class="frame">{body}</div>{extra}</div></section>')
     options = ''.join(f'<option value="{s["number"]-1}">{s["number"]}. {esc(by_slide.get(s["number"], s)["title"])}</option>' for s in slides)
     page = f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name="description" content="AI in Architecture: a presentation with Rhino, Grasshopper and zoning demos."><title>AI in Architecture — Indrajeet Haldar</title><link rel="icon" href="data:,"><link rel="stylesheet" href="web/deck.css"><script src="web/deck.js" defer></script></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name="description" content="AI in Architecture: a presentation with Rhino, Grasshopper and zoning demos."><title>AI in Architecture — Indrajeet Haldar</title><link rel="icon" href="data:,"><link rel="stylesheet" href="{asset('web/deck.css')}"><script src="web/deck.js" defer></script></head>
 <body><a class="skip" href="#slides">Skip to slides</a><header><a href="#slide-01" class="brand">AI in Architecture</a><nav aria-label="Presentation controls"><button id="prev" aria-label="Previous slide">←</button><label><span class="sr-only">Go to slide</span><select id="jump">{options}</select></label><button id="next" aria-label="Next slide">→</button><button id="fullscreen">Full screen</button><a href="https://github.com/range-et/AI_arch_resources">Files</a></nav></header><main id="slides">{''.join(sections)}</main><footer>Scroll or use ↑ ↓ to move through the slides. Videos have captions and no audio. <a href="AI%20in%20Architecture%20-%20Presentation.pptx">PowerPoint</a> · <a href="https://github.com/range-et/AI_arch_resources#readme">Demo guide and sources</a></footer></body></html>'''
     (ROOT/'index.html').write_text(page)
     (ROOT/'web/slides.json').write_text(json.dumps(slides, indent=2, ensure_ascii=False)+'\n')

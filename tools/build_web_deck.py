@@ -5,6 +5,8 @@ Requires Poppler's pdftocairo. No Python packages are required.
 """
 import concurrent.futures
 import html
+import hashlib
+import re
 import json
 from pathlib import Path
 import subprocess
@@ -18,9 +20,35 @@ NS = {'a': 'http://schemas.openxmlformats.org/drawingml/2006/main',
       'r': 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'}
 def esc(s): return html.escape(s, quote=True)
 
+DOT_PATTERN = '<pattern id="web-dot-grid" width="15" height="15" patternUnits="userSpaceOnUse"><circle cx="7.5" cy="7.5" r="0.5" fill="#c9ced4" fill-opacity="0.65"/></pattern>'
+GRID_IMAGE_HASHES = {
+    'source-7': '7212bb6a7cc9',
+    'source-6': '936f7cf56daa',
+}
+
+def soften_grid(path):
+    """Replace only the shared background image from the Slides export."""
+    svg = path.read_text()
+    for image_id, digest in GRID_IMAGE_HASHES.items():
+        match = re.search(r'<image id="' + image_id + r'"[^>]*/>', svg)
+        if not match:
+            return  # The appendices have no shared grid background.
+        href = re.search(r'xlink:href="([^"]+)"', match[0])[1]
+        if hashlib.sha256(href.encode()).hexdigest()[:12] != digest:
+            raise ValueError(f'Background changed in {path}; inspect it before replacing it.')
+    group = r'<g mask="url\(#mask-0\)">\s*<use xlink:href="#source-6"[^>]*/>\s*</g>'
+    svg, count = re.subn(group, '<rect width="720" height="405" fill="url(#web-dot-grid)"/>', svg)
+    if count != 1:
+        raise ValueError(f'Expected one shared grid in {path}, found {count}.')
+    for image_id in GRID_IMAGE_HASHES:
+        svg = re.sub(r'<image id="' + image_id + r'"[^>]*/>\s*', '', svg)
+    svg = svg.replace('<defs>', '<defs>\n' + DOT_PATTERN, 1)
+    path.write_text(svg)
+
 def build(pdf):
     out = ROOT / 'web/slides'
     out.mkdir(parents=True, exist_ok=True)
+    (ROOT/'web/dot-grid.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405"><defs>' + DOT_PATTERN + '</defs><rect width="720" height="405" fill="#f8f9fa"/><rect width="720" height="405" fill="url(#web-dot-grid)"/></svg>\n')
     with zipfile.ZipFile(ROOT / 'AI in Architecture - Presentation.pptx') as z:
         pres = ET.fromstring(z.read('ppt/presentation.xml'))
         rels = ET.fromstring(z.read('ppt/_rels/presentation.xml.rels'))
@@ -44,6 +72,7 @@ def build(pdf):
     def render(slide):
         n = slide['number']
         subprocess.run(['pdftocairo', '-svg', '-f', str(n), '-l', str(n), str(pdf), str(out/f'slide-{n:02}.svg')], check=True)
+        soften_grid(out/f'slide-{n:02}.svg')
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
         list(pool.map(render, slides))
     videos = json.loads((ROOT/'tools/youtube-videos.json').read_text())['videos']

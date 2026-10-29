@@ -108,7 +108,7 @@ The zoning tool uses an 82% transparent blue preview. The baked model uses a ded
 
 ## Update the web presentation
 
-The site is plain HTML, CSS and JavaScript. GitHub Pages serves `main` from the repository root. `index.html` is the entry point; `web/` holds the slide SVGs, navigation code and QR files. `tools/youtube-videos.json` lists the seven unlisted YouTube videos and their MP4 backups. The Q&A layout is made in HTML so the QR stays sharp. The other slide layouts come from the PDF export.
+The site is plain HTML, CSS and JavaScript. GitHub Pages serves `main` from the repository root. `index.html` is the entry point; `web/` holds the slide SVGs, navigation code and QR files. `tools/youtube-videos.json` lists the seven unlisted YouTube videos and their MP4 backups. The Q&A layout is made in HTML so the QR stays sharp. The other slide layouts come from the PDF export. The web build replaces the shared line-grid background with a faint dot pattern.
 
 After editing Google Slides, download both PowerPoint and PDF. Replace the root PowerPoint with the export, then run:
 

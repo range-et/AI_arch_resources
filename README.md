@@ -1,6 +1,8 @@
 # AI in Architecture
 
-The root contains the presentation and this guide. Each numbered demo folder holds its video, code, models and reports. Play the MP4s inside the [Google Slides deck](https://docs.google.com/presentation/d/1VEH2NRa5f1dJzQgTBd2cGdW-wjFdS8-PpCOyl6bzqpc/edit).
+Open the [web presentation](https://range-et.github.io/AI_arch_resources/). Scroll through the slides or use the arrow keys. Click **Full screen** for the talk. The seven demos play through YouTube, with an MP4 backup under each video.
+
+The webpage follows the final 37-slide Google Slides export from 28 October 2026. The Q&A page has a QR code made with [Mnemosyne](https://range-et.github.io/mnemosyne/), linking to this presentation. Each numbered demo folder holds its video, code, models and reports. The [Google Slides deck](https://docs.google.com/presentation/d/1VEH2NRa5f1dJzQgTBd2cGdW-wjFdS8-PpCOyl6bzqpc/edit) remains the editable source.
 
 ## Videos for the talk
 
@@ -98,7 +100,21 @@ The root holds the deck, README, sources and demo plan. Numbered demo folders ho
 | `demo-5-lbm/` | Source port, flow tool and two layouts |
 | `demo-6-zoning/` | Toronto rules, translucent envelope and annotated models |
 | `demo-7-autodesk/` | Attributed vendor excerpt |
-| `tools/` | Shared scripts, video edit manifest and checks |
+| `tools/` | Shared scripts, video manifests, web deck build and checks |
+| `web/` | Slide SVGs, QR code, CSS, JavaScript and slide manifest |
 | `working/` | Ignored scratch files, old attempts and raw recordings |
 
 The zoning tool uses an 82% transparent blue preview. The baked model uses a dedicated display mode with transparency on both front and back faces. `demo-6-zoning/annotate_zoning.py` adds the setback and height labels and saves `20-toronto-annotated-a.3dm` and `20-toronto-annotated-b.3dm`. The example house sits 0.1 m inside the envelope at the front and sides so the surfaces remain distinct. Its floor area still follows the same FSI cap.
+
+## Update the web presentation
+
+The site is plain HTML, CSS and JavaScript. GitHub Pages serves `main` from the repository root. `index.html` is the entry point; `web/` holds the slide SVGs, navigation code and QR files. `tools/youtube-videos.json` lists the seven unlisted YouTube videos and their MP4 backups. The Q&A layout is made in HTML so the QR stays sharp. The other slide layouts come from the PDF export.
+
+After editing Google Slides, download both PowerPoint and PDF. Replace the root PowerPoint with the export, then run:
+
+```sh
+python3 tools/build_web_deck.py /path/to/export.pdf
+python3 -m http.server 8765
+```
+
+The build needs Poppler's `pdftocairo`. Open `http://localhost:8765` to check the page, videos and QR. If you move a video slide, update its slide number in `tools/youtube-videos.json`. Commit and push to `main` to publish the changes. Keep temporary exports in `working/`.

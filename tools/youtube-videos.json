@@ -1,0 +1,62 @@
+{
+  "channel": "https://youtube.com/@indrajeethaldar",
+  "deck": "https://range-et.github.io/AI_arch_resources/",
+  "videos": [
+    {
+      "slide": 16,
+      "path": "demo-1-install/01-rhino-mcp-install.mp4",
+      "id": "FXo6aRCvYZA",
+      "title": "Rhino MCP installation",
+      "url": "https://youtu.be/FXo6aRCvYZA",
+      "visibility": "unlisted"
+    },
+    {
+      "slide": 18,
+      "path": "demo-2-commands/02-command-selection.mp4",
+      "id": "b7hpc4SF6vs",
+      "title": "Rhino command selection",
+      "url": "https://youtu.be/b7hpc4SF6vs",
+      "visibility": "unlisted"
+    },
+    {
+      "slide": 20,
+      "path": "demo-3-habitat/03-habitat-prompt.mp4",
+      "id": "ACnbg-e8_qA",
+      "title": "Habitat 67 massing",
+      "url": "https://youtu.be/ACnbg-e8_qA",
+      "visibility": "unlisted"
+    },
+    {
+      "slide": 22,
+      "path": "demo-4-tower/04-parametric-tower.mp4",
+      "id": "ohvDJfeg1h8",
+      "title": "Parametric tower",
+      "url": "https://youtu.be/ohvDJfeg1h8",
+      "visibility": "unlisted"
+    },
+    {
+      "slide": 24,
+      "path": "demo-5-lbm/05-lbm-to-grasshopper.mp4",
+      "id": "17hJY1WQV2w",
+      "title": "LBM to Grasshopper",
+      "url": "https://youtu.be/17hJY1WQV2w",
+      "visibility": "unlisted"
+    },
+    {
+      "slide": 26,
+      "path": "demo-6-zoning/20-toronto-zoning.mp4",
+      "id": "jAU8OOxORoo",
+      "title": "Toronto zoning envelope",
+      "url": "https://youtu.be/jAU8OOxORoo",
+      "visibility": "unlisted"
+    },
+    {
+      "slide": 28,
+      "path": "demo-7-autodesk/21-autodesk-published-demo.mp4",
+      "id": "LxE38z5wAoA",
+      "title": "Autodesk Building Layout Explorer excerpt",
+      "url": "https://youtu.be/LxE38z5wAoA",
+      "visibility": "unlisted"
+    }
+  ]
+}

@@ -1,0 +1,320 @@
+[
+  {
+    "number": 1,
+    "title": "AI in Architecture",
+    "text": "AI in Architecture\nIndrajeet Haldar\n\nx (Input)\n\n\nf(x) (Function)\n\n\ny (Output)\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 2,
+    "title": "Presentation Outline",
+    "text": "Presentation Outline\n1. Overview: Polynomial Functions to Transformers\n2. Function of LLMs, Coding Harnesses, and MCPs\n3. Examples: Rhino MCP, Grasshopper, and Autodesk\n4. System Characteristics: Computational Optimization and Cross-Domain Methods\n5. Questions and Answers (30 minutes)\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 3,
+    "title": "A Basic Polynomial Function: y = mx + c",
+    "text": "A Basic Polynomial Function: y = mx + c\n\ny = 4.5x + 20\n | x = student count, m = 4.5 sq m/student, c = 20 sq m buffer, y = studio area\n\nStudents (x)\nArea (sq m) (y)\n10\n65\n20\n110\n40\n200\n60\n290\n\n\n\nArea (sq m) (y)\nStudents (x)\n10\n20\n40\n60\n65\n110\n200\n290\n\n\n\n\nRef: Legendre (1805); synthetic illustrative dataset.\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 4,
+    "title": "Two Functions",
+    "text": "Two \nFunctions\nAI in Architecture | Indrajeet Haldar\n\n\n\nArea (sq m) (y)\nStudents (x)\n10\n20\n40\n60\n65\n110\n200\n290\n\n\n\n\nAirflow \n(y)\n\n\n\n\nInterpolated value\nNote: Simplified mathematical representation shown.",
+    "links": []
+  },
+  {
+    "number": 5,
+    "title": "Two Dense Neurons",
+    "text": "Two Dense Neurons\n\nInput x\n\nNeuron 1\nh1 = m1x + c1\n\nNeuron 2\nh2 = m2x + c2\n\n2D Latent Space\n\nh1\n\nh2\n\n(h1, h2)\nMapped Point\nRef: Rosenblatt (1958); Rumelhart et al. (1986).\nAI in Architecture | Indrajeet Haldar\nNumerical Inputs\nInstead of just singular numbers - you can plug in a stack of numbers (a vector) to get a vector out as well",
+    "links": []
+  },
+  {
+    "number": 6,
+    "title": "Word Vectorization",
+    "text": "Word Vectorization\nTokenization divides text into words. Vectorization assigns numerical coordinates to words.\nAI in Architecture | Indrajeet Haldar\nAppendix: Mathematical formulation of vectorization.\n\nSTEP 01\nRaw Text\n\"Studio Room\"\nRaw Input String\nText Input\nNatural language consists of character sequences. Numerical models process coordinate arrays rather than text strings.\ntokenize\nSTEP 02 : SEGMENT\nTokenization\nToken 1:  \n\"Studio\"\nToken 2:  \n\"Room\"\nWord Tokens\nText is divided into discrete word units. Each word corresponds to an index entry.\nvectorize\nSTEP 03 : ENCODE\nVectorization\n\"Studio\" → \n[ 0.42, 0.85 ]\n\"Room\"   → \n[ 0.78, 0.31 ]\nCoordinate Vectors\nEach word token corresponds to coordinates in a continuous vector space. Distance indicates statistical correlation.",
+    "links": []
+  },
+  {
+    "number": 7,
+    "title": "Vector Embeddings and Latent Space",
+    "text": "Vector Embeddings and Latent Space\nWords and spatial room labels map to coordinate values. Proximity corresponds to mathematical correlation.\n\n\n\nEquipment Load ↑\nAcoustic Privacy →\n\nEmbedding = (x, y)\nHeavy Fabrication\n\nWoodshop\n\nCNC Lab\nDesign Workspace\n\nDrafting Studio\nQuiet Assembly\n\nLecture Hall\n\nCrit Room\nRef: Mikolov et al. (2013), Word2Vec.\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 8,
+    "title": "Next-Token Prediction Using Vectors",
+    "text": "Next-Token Prediction Using Vectors\n\nInput x (now a vector)\n\nNeuron 1\nh1 = m1x + c1\n\nNeuron 2\nh2 = m2x + c2\n\nLatent Space\n\nh1\n\nh2\n\n(h1, h2)\nMapped \noutput vector\nRef: Rosenblatt (1958); Rumelhart et al. (1986).\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 9,
+    "title": "Sequential Next-Token Prediction (Autoregression and Recurrent Models)",
+    "text": "Sequential Next-Token Prediction (Autoregression and Recurrent Models)\nSequential models store preceding token states in a fixed memory vector.\n\nPASS 01\n\nInput Context:\n\"An apple is \n_____\n\"\n\n\nNEXT-TOKEN PROBABILITIES\nred\n\n45%\n\nSELECTED\nround\n\n35%\nsweet\n\n20%\n\nPASS 02\n\nInput Context (fed 'red' back):\n\"An apple is red \n_____\n\"\n\n\nNEXT-TOKEN PROBABILITIES\nand\n\n55%\n\nSELECTED\nwith\n\n30%\n.\n\n15%\n\nPASS 03\n\nInput Context (fed 'and' back):\n\"An apple is red and \n_____\n\"\n\n\nNEXT-TOKEN PROBABILITIES\nround\n\n65%\n\nSELECTED\njuicy\n\n25%\ncrisp\n\n10%\n\nAUTOREGRESSIVE LOOP:\n Output tokens are iteratively appended to input sequences to generate subsequent tokens sequentially.\nRef: Hochreiter & Schmidhuber (1997).\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 10,
+    "title": "Transformers: Conditional Probabilities Based on Context",
+    "text": "Transformers: Conditional Probabilities Based on Context\n\n\nCONTEXT A: FRUIT MARKET\nAttention Weight\n\nThe\n\nfruit\n\nmarket\n\nis\n\nbusy.\n\nAn\n\napple\n\nis\n\n_____\nPrompt: \"The fruit market is busy. An apple is _____\"\nNEXT-WORD PROBABILITIES P(w | Context)\nred\n\n50%\nround\n\n35%\nfresh\n\n15%\n\n\nCONTEXT B: LAPTOP STORE\nAttention Weight\n\nThe\n\nlaptop\n\nstore\n\nis\n\nbusy.\n\nAn\n\nApple\n\nis\n\n_____\nPrompt: \"The laptop store is busy. An Apple is _____\"\nNEXT-WORD PROBABILITIES P(w | Context)\nexpensive\n\n55%\naluminum\n\n30%\nfast\n\n15%\nRef: Vaswani et al. (2017), Attention Is All You Need.\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 11,
+    "title": "Images, 3D Models, and Other Media",
+    "text": "Images, 3D Models, and Other Media\n\n\nINPUT DOMAINS (TOKENS)\n\nImage Patches\n\n3D Meshes\n\nAudio\n\nText\n\nEmbed\n\nPROCESSING ARCHITECTURE\nLatent Space and Transformer Blocks\nUniform Token Processing Pipeline\n\nDecode\n\n\nGENERATED OUTPUTS\n\nGenerated Images\n\n3D Geometry\n\nCAD Commands\nRef: Dosovitskiy et al. (2020), Vision Transformer.\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 12,
+    "title": "System Prompts and Model Interaction Structure",
+    "text": "System Prompts and Model Interaction Structure\n\n\nUSER INTERFACE VIEW\nInteractive chat interface.\n\n\nUser\n\nModel Output\n\n\nText Interface Display\n\n\nINPUT DATA TO MODEL\n\n[Hidden System Prompt]\n\n+ [Relevant Files & CAD State Selected by Harness]\n\n+ [User Prompt]\n\n\n→ [Token Probability Calculation]\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 13,
+    "title": "General Software Architecture: LLMs, Coding Harnesses, and MCPs",
+    "text": "General Software Architecture: LLMs, Coding Harnesses, and MCPs\n\n\n01 // OPERATOR\n1. User\nOperator providing prompt inputs and reviewing system outputs.\n\n\n\n\n02 // ENVIRONMENT\n2. Coding Harness\nSystem Context and Execution Loop\nMaintains state, prepares context windows, executes code, and processes returned data.\n\n\n\n\n03 // MODEL\n3. LLM\nProbabilistic model generating text tokens, code, and tool commands.\n\n\nRef: Anthropic (2024), Model Context Protocol.\nAI in Architecture | Indrajeet Haldar\n\n\n04 // INTERFACE\n4. MCP\nProvides command interfaces and tool definitions to execute software operations.\n\n\n05 // APPLICATION\n5. Target Software\nCAD and BIM software where geometry modifications execute via API or CLI commands.\n\n",
+    "links": []
+  },
+  {
+    "number": 14,
+    "title": "Live Demonstrations: CAD Automation via MCP",
+    "text": "Live Demonstrations: CAD Automation via MCP\nSECTION 03 // INTERACTIVE EXECUTION WORKFLOWS\nRef: Anthropic Model Context Protocol (MCP); McNeel RhinoAI Integration.\nAI in Architecture | Indrajeet Haldar\n\n\nDEMO 01 // GEOMETRY\nRhino 8 Model Context\nDirect Viewport & Brep Control\nNative Viewport API: \nInspect active layers, materials, and selected geometry.\nCommand Execution: \nAutomated NURBS curves, lofting, sweeps, and booleans.\nBi-Directional State: \nStreams model bounding boxes and object GUIDs to LLM.\nPROTOCOL: JSON-RPC (STDIO)\n\n\nDEMO 02 // PARAMETRIC\nGrasshopper Nodes\nAlgorithmic Graph Modification\nGraph Inspection: \nReads active sliders, panel parameters, and cluster data.\nENGINE: RHINOCODE PYTHON 3\n\n\nDEMO 03 // ECOSYSTEM\nAutodesk & Interop\nCross-Platform Pipeline\nForma\nPIPELINE: HYBRID CAD / BIM",
+    "links": []
+  },
+  {
+    "number": 15,
+    "title": "Installing the Rhino MCP (mcneel.github.io/RhinoAI)",
+    "text": "Installing the Rhino MCP \n(mcneel.github.io/RhinoAI)\nSETUP GUIDE // RHINO 8 AND CODEX\nRef: McNeel RhinoAI (https://mcneel.github.io/RhinoAI/); Anthropic Claude Desktop MCP Documentation.\nAI in Architecture | Indrajeet Haldar\n\n\nSTEP 01 // \nENVIRONMENT\nRhino 8\nUse current Rhino 8 on an Apple Silicon Mac.\n\n\nCLI / COMMAND\n# In Rhino 8 command line:\nSystemInfo\n# Check the Rhino version\nTested here: Rhino 8.36 on Apple Silicon.\n\n\nSTEP 02 // \nPACKAGE\nInstall MCP Server\nInstall Rhino-MCP-Platform from Rhino Package Manager.\n\n\nRHINO COMMAND\nPackageManager\n# Search for:\nRhino-MCP-Platform\nRestart Rhino after the package installs.\n\n\nSTEP 03 // \nCONFIG\nConfigure Harness\nIn MCPConnect, click Install next to Codex.\n\n\nCODEX CONNECTION\nMCPConnect\nRestart Codex to load the Rhino tools.\n\n\nSTEP 04 // \nEXECUTE\nVerify Connection\nLaunch MCP bridge inside Rhino and prompt the LLM.\n\n\nRHINO 8 VERIFICATION\n# Inside Rhino 8:\nMCPStart\n# Prompt: 'Draw a torus'\n\nCheck: read the model, then create one torus.",
+    "links": []
+  },
+  {
+    "number": 16,
+    "title": "Slide",
+    "text": "",
+    "links": [
+      {
+        "url": "http://drive.google.com/file/d/1aEfWHf7EmD6h96eqbHDVOcjgFRjWDG5R/view",
+        "label": "Source"
+      }
+    ],
+    "video": {
+      "slide": 16,
+      "path": "demo-1-install/01-rhino-mcp-install.mp4",
+      "id": "FXo6aRCvYZA",
+      "title": "Rhino MCP installation",
+      "url": "https://youtu.be/FXo6aRCvYZA",
+      "visibility": "unlisted"
+    }
+  },
+  {
+    "number": 17,
+    "title": "System Example 1A: Rhino MCP Command Selection",
+    "text": "System Example 1A: Rhino MCP Command Selection\n\n01 / INPUT GOAL\nTarget Form Sketch / Goal\n\n\n\n\n\n\n\n\n02 / MODEL SELECTION\nRhino MCP\n\n\nMCP CORE\n\n\n\n\n\n03 / RECOMMENDED COMMAND SEQUENCE\nRecommended Command Sequence:\n1.\n \nRadial Profile\n2.\n \nRevolve\n3.\n \nCap\n4.\n \nCheck\nSequential command retrieval via Model Context Protocol (MCP)\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 18,
+    "title": "Slide",
+    "text": "",
+    "links": [
+      {
+        "url": "http://drive.google.com/file/d/1_-ab4s-lmkJWcmXThboMEvX0hWmRzaih/view",
+        "label": "Source"
+      }
+    ],
+    "video": {
+      "slide": 18,
+      "path": "demo-2-commands/02-command-selection.mp4",
+      "id": "b7hpc4SF6vs",
+      "title": "Rhino command selection",
+      "url": "https://youtu.be/b7hpc4SF6vs",
+      "visibility": "unlisted"
+    }
+  },
+  {
+    "number": 19,
+    "title": "System Example 1B: Direct 3D Coordinate Output",
+    "text": "System Example 1B: Direct 3D Coordinate Output\n\nPrompt: \"Build Habitat 67\"\n\n\nModel generates 3D coordinate values\n\n\nGenerated Mesh Checks\n• This run produces 126 assumed modules in one closed mesh.\n• Module dimensions and the stepped layout are assumptions.\n• A valid mesh still needs comparison with the building.\n\nOBS demo: 03-habitat-prompt.mp4\nReference: Safdie Architects, Habitat 67. Approximate massing.\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 20,
+    "title": "Slide",
+    "text": "",
+    "links": [
+      {
+        "url": "http://drive.google.com/file/d/1RQWbFba7dZ_QQY4YsEfxXbDGIM31zids/view",
+        "label": "Source"
+      }
+    ],
+    "video": {
+      "slide": 20,
+      "path": "demo-3-habitat/03-habitat-prompt.mp4",
+      "id": "ACnbg-e8_qA",
+      "title": "Habitat 67 massing",
+      "url": "https://youtu.be/ACnbg-e8_qA",
+      "visibility": "unlisted"
+    }
+  },
+  {
+    "number": 21,
+    "title": "System Example 2A: Parametric Script Generation via Grasshopper",
+    "text": "System Example 2A: Parametric Script Generation via Grasshopper\n\nCreate a tower with floor-count and twist controls.\n\n\nPython component in Grasshopper\n\n\n12 closed slabs and one core\n\nThe model writes script syntax; the CAD engine executes geometric calculation.\nScript generation produces parametric definitions that execute within the CAD environment according to defined geometric rules.\n\nOBS demo: 04-parametric-tower.mp4\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 22,
+    "title": "Slide",
+    "text": "",
+    "links": [
+      {
+        "url": "http://drive.google.com/file/d/1-x5DCYi2zG3xEXzItEw-q0JOOv9kgACs/view",
+        "label": "Source"
+      }
+    ],
+    "video": {
+      "slide": 22,
+      "path": "demo-4-tower/04-parametric-tower.mp4",
+      "id": "ohvDJfeg1h8",
+      "title": "Parametric tower",
+      "url": "https://youtu.be/ohvDJfeg1h8",
+      "visibility": "unlisted"
+    }
+  },
+  {
+    "number": 23,
+    "title": "System Example 2B: Airflow in a 2D Slice",
+    "text": "System Example 2B: Airflow in a 2D Slice\nAdapt existing LBM code into a Grasshopper tool for a 2D flow slice.\n\n01 // INPUT PARAMETERS\nBuilding Slice\nClosed footprints, inlet speed, grid size and viscosity.\nCompare two layouts with the same flow settings.\n\n\n02 // CODE ADAPTATION\nAdapt Existing Code\n• \nPorts D2Q9 / TRT from GitHub\n• \nRuns a small Python solver\n// LBM time step\nfor each step {\ncollide_and_stream()\napply_boundaries()\n}\n\n\n03 // GENERATED TOOL\n2D Flow Field\nTeaching model. Check stability before comparing layouts.\nOUTPUT METRICS:\n• \nRelative speed\n• \nVelocity vectors\n• \nWake pattern\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 24,
+    "title": "Slide",
+    "text": "",
+    "links": [
+      {
+        "url": "http://drive.google.com/file/d/1w1r7VjY-mhF9pwvcpQ9kEi0EgE8Sl6U-/view",
+        "label": "Source"
+      }
+    ],
+    "video": {
+      "slide": 24,
+      "path": "demo-5-lbm/05-lbm-to-grasshopper.mp4",
+      "id": "17hJY1WQV2w",
+      "title": "LBM to Grasshopper",
+      "url": "https://youtu.be/17hJY1WQV2w",
+      "visibility": "unlisted"
+    }
+  },
+  {
+    "number": 25,
+    "title": "System Example 2C: Extracting Regulatory Constraints for Grasshopper Models",
+    "text": "System Example 2C: Extracting Regulatory Constraints for Grasshopper Models\n\nFunction:\n Models extract quantitative constraints from regulatory texts to define parametric building envelopes.\n\n[INPUT 01]\nToronto RD Zoning Rules\nSelected Toronto clauses. Fictional 15 x 36 m lot.\n\n\n[DATA PROCESSING 02]\nText Parsing\nCheck each clause. Declare the zone, setbacks and coverage assumptions.\n\n\n[OUTPUT 03]\nGrasshopper 3D Model\nChange lot depth to 30 m. Recompute setbacks and house size.\nFormat: Unstructured PDF / Text\nStructured Data Extraction\n3D Parametric Volume\nProcess: Regulatory Document → Parameter Extraction → Parametric Boundary Generation\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 26,
+    "title": "Slide",
+    "text": "",
+    "links": [
+      {
+        "url": "http://drive.google.com/file/d/1IVOUMlWX8KO5MDMrCkC21wrkowsy_-rz/view",
+        "label": "Source"
+      }
+    ],
+    "video": {
+      "slide": 26,
+      "path": "demo-6-zoning/20-toronto-zoning.mp4",
+      "id": "jAU8OOxORoo",
+      "title": "Toronto zoning envelope",
+      "url": "https://youtu.be/jAU8OOxORoo",
+      "visibility": "unlisted"
+    }
+  },
+  {
+    "number": 27,
+    "title": "System Example 3: Autodesk Forma (Published Demo)",
+    "text": "\nSystem Example 3: Autodesk Forma (Published Demo)\n\nBuilding massing, type and material\n\nForma Building Layout Explorer\n\nFloor-plan options (experimental)\nAI in Architecture | Indrajeet Haldar\n",
+    "links": [
+      {
+        "url": "http://www.youtube.com/watch?v=dC-DqjnZonk",
+        "label": "Source"
+      }
+    ]
+  },
+  {
+    "number": 28,
+    "title": "Slide",
+    "text": "",
+    "links": [
+      {
+        "url": "http://drive.google.com/file/d/1p5rzNWQZg_cILlfB8iDLXZzdFXTIyjvm/view",
+        "label": "Source"
+      }
+    ],
+    "video": {
+      "slide": 28,
+      "path": "demo-7-autodesk/21-autodesk-published-demo.mp4",
+      "id": "LxE38z5wAoA",
+      "title": "Autodesk Building Layout Explorer excerpt",
+      "url": "https://youtu.be/LxE38z5wAoA",
+      "visibility": "unlisted"
+    }
+  },
+  {
+    "number": 29,
+    "title": "Computational Optimization: Navier-Stokes Case Study",
+    "text": "Computational Optimization: Navier-Stokes Case Study\n\nPHASE 01 // PROBLEM FORMULATION\nMathematical formulation\n defined by Cordoba & Martinez-Zoroa (2023) and Buckmaster & Alpoge (2026).\n\n\nPHASE 02 // AUTOMATED SEARCH\nAlgorithmic search:\n 10,000 automated search processes executed across candidate proof steps within formal verification tools.\nRef: Cordoba & Martinez-Zoroa (2023); Buckmaster & Alpoge (2026); OpenAI (2026).\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 30,
+    "title": "Cross-Domain Structural Mapping",
+    "text": "Cross-Domain Structural Mapping\nLarge models contain text from multiple disciplines. Mathematical formulations from one field can be transferred to problems in other fields.\n\n\nSOURCE DOMAINS // FIELD A\nEpidemiology\nKermack & McKendrick, 1927\nGame Theory / Consensus\nDeGroot, 1974\nMathematical abstractions for network state transitions & opinion dynamics.\n\n\n\nSTRUCTURAL MAPPING\n(Operator Selection and Input)\nCross-domain model mapping\n\n\nTARGET DOMAIN // FIELD B\nInformation Propagation\nAcross 1,000,000+ Graph Nodes\nDocumented Implementations\n• Network Propagation Formulations (Haldar 2022)\n• Graph Network Library (Haldar 2023)\nSTRUCTURE: Application of epidemic and consensus equations to network graph architectures.\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 31,
+    "title": "Model Utility: General-Purpose Optimization and Retrieval",
+    "text": "Model Utility: General-Purpose Optimization and Retrieval\nAI in Architecture | Indrajeet Haldar\nFunctional profile: Models perform automated iterative candidate generation and validation within defined constraints.\n\nCASE STUDY 02 // CAD RECONSTRUCTION\nCAD Code Reconstruction:\n CadCraft and PartCraft\nParametric Code Generation:\n CadCraft and PartCraft generate CAD script commands to reconstruct specified 3D target geometry.\nClosed-Loop Geometry Verification: Model generates script -> CAD kernel executes geometry -> shape discrepancy is calculated -> script updates until geometric tolerance is reached.\nSUMMARY:\n Models operate as iterative search systems and structured retrieval engines when paired with deterministic execution environments.",
+    "links": []
+  },
+  {
+    "number": 32,
+    "title": "Reference Material and Technical Documentation",
+    "text": "Reference Material and Technical Documentation\nAI in Architecture | Indrajeet Haldar\nTechnical documentation, mathematics references, and visualizations of neural network functions.\n\n\nVIDEO LECTURES // VISUAL MATHEMATICS\n3Blue1Brown:\n Neural Networks and Deep Learning\nA video lecture series explaining matrix operations, gradient backpropagation, and geometric transformations in high-dimensional coordinate spaces.\nTopics:\n Weights, biases, activation functions, gradient descent, and loss surfaces.\nApplication:\n Visual presentation of linear algebra and vector calculus operations.\nLink to Series on YouTube:\n 3Blue1Brown Neural Networks Playlist\nyoutube.com/playlist?list=PLZHQObOWTQDM4E-dwvbnQTiyKDO-y9T2t\n\n\nMODEL ARCHITECTURE // REFERENCE CODE\nAndrej Karpathy: Neural Networks: Zero to Hero\nCode walkthrough showing implementation of basic neural networks and transformer models using Python and PyTorch.\nResource: karpathy.ai / YouTube\n\n\nINTERACTIVE TOOLS // WEB VISUALIZATION\nTransformer Explainer and Distill.pub\nWeb-based interactive diagrams demonstrating attention weight matrices, token transformations, and dimensional projections.\nResource: poloclub.github.io/transformer-explainer",
+    "links": []
+  },
+  {
+    "number": 33,
+    "title": "Questions and Answers",
+    "text": "Questions and Answers\nAI in Architecture | Indrajeet Haldar",
+    "links": []
+  },
+  {
+    "number": 34,
+    "title": "Technical Appendices",
+    "text": "Technical Appendices\nMathematical definitions, optimization procedures, and training architectures.\nAI in Architecture | Indrajeet Haldar\n\n\nAPPENDIX A // VECTOR EMBEDDINGS\nWord Vectorization Mathematics\nVector space projection, embedding lookup matrices E in R^(V x d), and vector similarity calculation using cosine distance.\nSlide 25 ->\n\n\nAPPENDIX B // OPTIMIZATION AND PARAMETER UPDATES\nLoss Functions and Parameter Updates via Backpropagation\nCross-entropy loss calculation, gradient computation across model weights via the calculus chain rule, and parameter updates using AdamW.\nSlide 26 ->\n\n\nAPPENDIX C // POST-TRAINING ENVIRONMENTS\nReinforcement Learning Environments in Model Training\nTraining feedback mechanisms: human evaluations (RLHF), model-based evaluations (RLAIF), and deterministic code verification (RLVR).\nSlide 27 ->",
+    "links": []
+  },
+  {
+    "number": 35,
+    "title": "Appendix A: Word Vectorization Mathematics",
+    "text": "AI in Architecture | Indrajeet Haldar\nAppendix A: Word Vectorization Mathematics\nMathematical projection of discrete symbolic tokens into continuous coordinate spaces.\n\n\n01 // ONE-HOT ENCODING\nSparse Vector Representation\nFor vocabulary size |V| (e.g. 50,000 words), each token corresponds to an indicator vector:\nx_i = [0, 0, ..., 1, ..., 0]^T ∈ {0, 1}^|V|\nGeometric Properties:\nAll distinct one-hot vectors are mutually orthogonal:\nx_i · x_j = 0  (for all i ≠ j)\nThis representation assigns equal geometric distance between all distinct word pairs.\n02 // EMBEDDING MATRIX\nLinear Matrix Lookup\nAn embedding matrix W_e ∈ ℝ^(d × |V|) projects sparse indicator vectors into d-dimensional coordinate space (e.g. d = 768 or 4096):\ne_word = W_e · x_word = W_e[:, index]\nCoordinate Properties:\nEach token corresponds to a coordinate vector of real values:\ne_studio = [ +0.42, +0.85, -0.19, ... ]\nEmbedding matrix values are adjusted during training via gradient descent.\n03 // DISTANCE METRIC\nCosine Distance Metric\nVector orientation similarity is calculated using normalized dot products:\ncos(u, v) = (u · v) / (||u|| ||v||)\nVector Operations:\nVector translations correspond to relational shifts:\nv_king - v_man + v_woman ≈ v_queen\nIn domain-specific vocabulary spaces:\nv_studio - v_residential + v_commercial ≈ v_office\n\nMATHEMATICAL SUMMARY:\n Vectorization converts text symbols into numeric vectors. Geometric distance corresponds to statistical correlation, and vector differences correspond to semantic relationships.",
+    "links": []
+  },
+  {
+    "number": 36,
+    "title": "Appendix B: Loss Functions and Parameter Optimization",
+    "text": "AI in Architecture | Indrajeet Haldar\nAppendix B: Loss Functions and Parameter Optimization\nQuantifying token prediction error and updating parameter values via gradient descent.\n\n\n01 // LOSS FUNCTION\nCross-Entropy Loss (L)\nThe model outputs raw logits z. The softmax function calculates predicted probability values:\np_i = exp(z_i) / Σ_j exp(z_j)\nNegative Log-Likelihood:\nFor target token index y_true, the error value is defined as:\nL = -log( p_target )\n• If p_target = 0.99 → L ≈ 0.01 (Low error value)\n• If p_target = 0.01 → L ≈ 4.60 (High error value)\n02 // CHAIN RULE OF CALCULUS\nGradient Calculation (∂L/∂W)\nBackpropagation applies the chain rule to calculate the partial derivative of loss with respect to parameter W:\n∂L / ∂W_l = (∂L / ∂a_l) · (∂a_l / ∂z_l) · (∂z_l / ∂W_l)\nGradient Flow:\nGradients propagate backward from output logits through attention and feed-forward layers to the input embedding matrix.\n03 // PARAMETER UPDATES\nGradient Descent Optimization (AdamW)\nIn standard gradient descent, parameters update proportionally to the negative gradient scaled by learning rate η:\nW ← W - η · (∂L / ∂W)\nAdamW applies three adjustments:\n1. First moment vector: tracks the exponential moving average of gradients.\n2. Second moment vector: divides steps by gradient variance for adaptive per-parameter updates.\n3. Weight decay: applies proportional parameter shrinkage to regularize weights.\n\nOPTIMIZATION SUMMARY:\n Model training is an iterative numerical procedure: forward execution produces logits, cross-entropy calculates loss, backpropagation computes partial derivatives, and AdamW updates parameters to minimize loss.",
+    "links": []
+  },
+  {
+    "number": 37,
+    "title": "Appendix C: Reinforcement Learning Environments in Model Training",
+    "text": "AI in Architecture | Indrajeet Haldar\nAppendix C: Reinforcement Learning Environments in Model Training\nTraining feedback methodologies: human feedback (RLHF), model-based feedback (RLAIF), and deterministic execution verification (RLVR).\n\n\nTYPE 1 // HUMAN PREFERENCE\nRLHF: Human Feedback\nProcedure:\nHuman annotators evaluate and rank model outputs. A reward model r_θ(x, y) is fitted to these rankings to score candidate text.\nOptimization:\nThe policy π_θ updates to maximize reward score while limiting divergence from the base model:\nmax E[ r(x,y) - β·D_KL(π_θ || π_ref) ]\nCharacteristics: Requires human labor; subject to inter-annotator variance.\nTYPE 2 // MODEL-ASSISTED PREFERENCE\nRLAIF: Model Feedback\nProcedure:\nAn auxiliary evaluation model scores and ranks candidate outputs according to specified criteria.\nIterative Refinement:\nModels run automated critique loops to identify output inconsistencies without manual ranking data.\nCharacteristics:\nAutomated scaling; operates continuously without manual annotation bottlenecks.\nTYPE 3 // VERIFIABLE EXECUTION\nRLVR: Deterministic Execution Rewards\nProcedure:\nCandidate solutions are verified using external compilers and test runners:\nr = 1 (Passes compiler and test assertions)\nr = 0 (Execution error or incorrect test result)\nVerification Environments:\n• Formal proof checkers (LEAN, Isabelle)\n• Code execution sandboxes and test suites\n• Parametric geometry kernels and compilers\nSupports search over reasoning traces with deterministic evaluation.\n\nTRAINING SUMMARY:\n Training models inside verifiable code and mathematical environments (RLVR) provides deterministic reward signals based on compilation and execution outcomes.",
+    "links": []
+  }
+]

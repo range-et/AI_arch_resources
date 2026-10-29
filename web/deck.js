@@ -13,7 +13,8 @@ document.querySelector('#fullscreen').addEventListener('click', async () => {
   else await document.documentElement.requestFullscreen();
 });
 document.addEventListener('keydown', event => {
-  if (event.altKey || event.ctrlKey || event.metaKey || /INPUT|TEXTAREA|SELECT|BUTTON|IFRAME/.test(event.target.tagName) || event.target.isContentEditable) return;
+  if (event.altKey || event.ctrlKey || event.metaKey || /INPUT|TEXTAREA|SELECT|IFRAME/.test(event.target.tagName) || event.target.isContentEditable) return;
+  if (event.target.tagName === 'BUTTON' && event.key === ' ') return;
   const moves = {ArrowDown: 1, ArrowRight: 1, PageDown: 1, ' ': event.shiftKey ? -1 : 1, ArrowUp: -1, ArrowLeft: -1, PageUp: -1};
   if (event.key in moves) {event.preventDefault(); go(current + moves[event.key]);}
   if (event.key === 'Home') {event.preventDefault(); go(0);}

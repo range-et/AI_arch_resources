@@ -1,10 +1,10 @@
-// Run through Rhino MCP. Creates a NEW definition. Edit root for another computer.
-using System;
-using System.Linq;
-var root="/Users/r2d2/Desktop/AI_arch_resources";
+// Run inside Rhino MCP's run_csharp tool. Rebuilds the teaching definition in a NEW GH document.
+// All code and the GH file stay at the repository root.
+var root="/Users/r2d2/Desktop/AI_arch_resources/demo-5-lbm";
 var canvas=Grasshopper.Instances.ActiveCanvas;
 var doc=new Grasshopper.Kernel.GH_Document();
-// Shared construction helpers for the teaching GH definitions.
+doc.FilePath=System.IO.Path.Combine(root,"05-lbm-tool.gh");
+canvas.Document=doc;
 var proxy=Grasshopper.Instances.ComponentServer.ObjectProxies.First(p=>p.Guid==new Guid("719467e6-7cf5-4848-99b0-c5dd57e5442c"));
 Grasshopper.Kernel.GH_Component MakeScript(string name,string file,string[] inputs,string[] outputs,int x,int y){
  var comp=(Grasshopper.Kernel.GH_Component)Grasshopper.Instances.ComponentServer.EmitObjectProxy(proxy.Guid).CreateInstance();
@@ -29,15 +29,21 @@ Grasshopper.Kernel.Special.GH_NumberSlider Slider(string name,decimal min,decima
 Grasshopper.Kernel.Special.GH_Panel Panel(string text,int x,int y,int width,int height){
  var p=new Grasshopper.Kernel.Special.GH_Panel();p.CreateAttributes();p.UserText=text;p.Attributes.Pivot=new System.Drawing.PointF(x,y);p.Attributes.Bounds=new System.Drawing.RectangleF(x,y,width,height);doc.AddObject(p,false);return p;
 }
-doc.FilePath=System.IO.Path.Combine(root,"04-parametric-tower.gh");canvas.Document=doc;
-Panel("PROMPT\nCreate a tower with 12 square floor plates.\nAdd floor-count, storey-height and twist controls.\nKeep slabs and core as closed solids.\n\nCHANGE\nTotal twist: 0 to 60 degrees.",20,20,510,140);
-var tower=MakeScript("Parametric tower","parametric_tower.py",new[]{"floors","twist","storey_height"},new[]{"slabs","core","report"},490,260);
-var floors=Slider("Floors",6,20,12,40,220,0);
-var twist=Slider("Total twist",0,90,0,40,270,0);
-var height=Slider("Storey height",2.5m,5,3.2m,40,320,1);
-tower.Params.Input[0].AddSource(floors);tower.Params.Input[1].AddSource(twist);tower.Params.Input[2].AddSource(height);
-var report=Panel("",680,160,480,340);report.AddSource(tower.Params.Output[3]);
-
-var io=new Grasshopper.Kernel.GH_DocumentIO();io.Document=doc;if(!io.SaveQuiet(doc.FilePath))throw new Exception("GH save failed");
-canvas.Viewport.Zoom=1f;canvas.Viewport.Target=new System.Drawing.Point(0,0);canvas.Refresh();doc.NewSolution(false);
-Console.WriteLine("Saved "+doc.FilePath);
+var goal=Panel("SOURCE: github.com/jviquerat/lbm\nD2Q9 / TRT\n\nTASK\nAdapt this code into a GH tool.\nClosed footprints become obstacles.\nMove one footprint and solve again.\n\nLattice units. 2D laminar teaching model.\nSee lbm_prompt.txt for the full prompt.",20,20,360,230);
+var geometry=MakeScript("Building footprints","lbm_footprints.py",new[]{"shift"},new[]{"footprints","buildings"},440,250);
+var solver=MakeScript("LBM flow slice","lbm_grasshopper.py",new[]{"footprints","steps","inlet","tau"},new[]{"mesh","vectors","report"},800,250);
+var shift=Slider("Middle block shift",-15,4,0,180,285,0);
+var steps=Slider("Time steps",100,6000,1800,480,420,0);
+var inlet=Slider("Inlet speed",.01m,.06m,.03m,480,470,3);
+var tau=Slider("Tau",.55m,1.2m,.65m,480,520,2);
+geometry.Params.Input[0].AddSource(shift);
+solver.Params.Input[0].AddSource(geometry.Params.Output[1]);
+solver.Params.Input[1].AddSource(steps);solver.Params.Input[2].AddSource(inlet);solver.Params.Input[3].AddSource(tau);
+var report=Panel("",1100,190,430,570);report.AddSource(solver.Params.Output[3]);
+var io=new Grasshopper.Kernel.GH_DocumentIO();io.Document=doc;
+if(!io.SaveQuiet(doc.FilePath))throw new Exception("GH save failed");
+canvas.Viewport.Zoom=0.9f;
+canvas.Viewport.Target=new System.Drawing.Point(0,0);
+canvas.Refresh();
+Console.WriteLine("Saved new GH tool: "+doc.FilePath+". Solver="+solver.InstanceGuid+". Shift="+shift.InstanceGuid);
+doc.NewSolution(false);

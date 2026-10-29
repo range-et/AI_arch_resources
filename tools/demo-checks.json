@@ -1,35 +1,35 @@
 {
-  "01-install-check.3dm": {
+  "demo-1-install/01-install-check.3dm": {
     "objects": 1,
     "all_valid": true,
     "breps_closed": true
   },
-  "02-command-selection.3dm": {
+  "demo-2-commands/02-command-selection.3dm": {
     "objects": 2,
     "all_valid": true,
     "breps_closed": true
   },
-  "03-habitat-massing.3dm": {
+  "demo-3-habitat/03-habitat-massing.3dm": {
     "objects": 1,
     "all_valid": true,
     "breps_closed": true
   },
-  "04-tower-a.3dm": {
+  "demo-4-tower/04-tower-a.3dm": {
     "objects": 13,
     "all_valid": true,
     "breps_closed": true
   },
-  "04-tower-b.3dm": {
+  "demo-4-tower/04-tower-b.3dm": {
     "objects": 13,
     "all_valid": true,
     "breps_closed": true
   },
-  "20-toronto-lot-a.3dm": {
+  "demo-6-zoning/20-toronto-lot-a.3dm": {
     "objects": 3,
     "all_valid": true,
     "breps_closed": true
   },
-  "20-toronto-lot-b.3dm": {
+  "demo-6-zoning/20-toronto-lot-b.3dm": {
     "objects": 3,
     "all_valid": true,
     "breps_closed": true
@@ -40,8 +40,15 @@
     "invalid_lots_rejected": true
   },
   "presentation": {
-    "slides": 30,
-    "demo_labels_and_notes_present": true
+    "slides": 37,
+    "demo_labels_and_notes_present": true,
+    "seven_video_slides_in_order": true,
+    "export_media": "Drive-linked posters. Google Slides contains native playable videos."
+  },
+  "zoning_display": {
+    "envelope_transparency": 0.82,
+    "labels_per_case": 7,
+    "annotated_models_checked": true
   },
   "01-rhino-mcp-install.mp4": {
     "duration_seconds": 113.58,
@@ -69,7 +76,7 @@
     "dimensions": "1920x1080"
   },
   "20-toronto-zoning.mp4": {
-    "duration_seconds": 73.5,
+    "duration_seconds": 66.83,
     "codec": "h264",
     "dimensions": "1920x1080"
   },

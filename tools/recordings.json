@@ -1,0 +1,168 @@
+{
+  "capture": "OBS Studio 33.0.0. Silent edits of real application captures. Cuts and playback speeds are labelled. Raw recordings stay in working/recordings.",
+  "videos": [
+    {
+      "output": "demo-2-commands/02-command-selection.mp4",
+      "segments": [
+        [
+          "2026-10-28 19-10-01.mov",
+          0,
+          40,
+          1,
+          "Rhino commands: radial profile, Revolve, Cap, then geometry checks"
+        ]
+      ]
+    },
+    {
+      "output": "demo-3-habitat/03-habitat-prompt.mp4",
+      "segments": [
+        [
+          "2026-10-28 19-11-23.mov",
+          0,
+          6,
+          1,
+          "Prompt: Build Habitat 67. Approximate massing from mesh coordinates"
+        ],
+        [
+          "2026-10-28 19-11-23.mov",
+          18,
+          11,
+          1,
+          "Open the Python script and run it in Rhino"
+        ],
+        [
+          "2026-10-28 19-34-03.mov",
+          1,
+          12,
+          1,
+          "Result: 126 assumed modules. One valid closed mesh. Fidelity unchecked"
+        ]
+      ]
+    },
+    {
+      "output": "demo-4-tower/04-parametric-tower.mp4",
+      "segments": [
+        [
+          "2026-10-28 19-12-24.mov",
+          0,
+          27,
+          1,
+          "Build the Grasshopper definition and run its Python component"
+        ],
+        [
+          "2026-10-28 19-12-24.mov",
+          34,
+          8,
+          1,
+          "First result: 12 slabs and a core, with zero twist"
+        ],
+        [
+          "2026-10-28 19-12-24.mov",
+          43,
+          21,
+          1,
+          "Change the total-twist input to 60 degrees and recompute"
+        ],
+        [
+          "2026-10-28 19-32-53.mov",
+          1,
+          10,
+          1,
+          "Result: 60-degree twist. All 13 solids pass Rhino validity checks"
+        ]
+      ]
+    },
+    {
+      "output": "demo-5-lbm/05-lbm-to-grasshopper.mp4",
+      "segments": [
+        [
+          "2026-10-28 18-30-28.mov",
+          0,
+          50,
+          2,
+          "1. Inspect the GitHub source: jviquerat/lbm, D2Q9 / TRT (2x)"
+        ],
+        [
+          "2026-10-28 19-25-39.mov",
+          0,
+          43,
+          1.5,
+          "2. Inspect the port, build the GH tool, and run the Python adapter (1.5x)"
+        ],
+        [
+          "2026-10-28 19-31-44.mov",
+          1,
+          9,
+          1,
+          "3. Layout A: shift 0. Peak speed 0.05592 in lattice units"
+        ],
+        [
+          "2026-10-28 19-25-39.mov",
+          64,
+          40,
+          1,
+          "4. Set the middle block shift to -12. Grasshopper solves again"
+        ],
+        [
+          "2026-10-28 19-31-44.mov",
+          25,
+          9,
+          1,
+          "5. Layout B: changed flow. Peak speed 0.04986. Same colour scale"
+        ]
+      ]
+    },
+    {
+      "output": "demo-6-zoning/20-toronto-zoning.mp4",
+      "segments": [
+        [
+          "2026-10-28 19-14-27.mov",
+          0,
+          35,
+          2,
+          "1. Read Toronto RD clauses. State the fictional lot assumptions (2x)"
+        ],
+        [
+          "2026-10-28 19-18-23.mov",
+          0,
+          23,
+          1.5,
+          "2. Run the zoning component and read its calculated limits (1.5x)"
+        ],
+        [
+          "2026-10-28 20-05-51.mov",
+          2,
+          12,
+          1,
+          "3. Blue translucent envelope: setbacks, length and height limits. Lot depth 36 m"
+        ],
+        [
+          "2026-10-28 19-18-23.mov",
+          32,
+          10,
+          1,
+          "4. Change the lot-depth slider from 36 to 30 m"
+        ],
+        [
+          "2026-10-28 20-04-56.mov",
+          2,
+          12,
+          1,
+          "5. Depth 30 m. Rear setback 7.5 m. Example floor area 270 m2"
+        ]
+      ]
+    },
+    {
+      "output": "demo-7-autodesk/21-autodesk-published-demo.mp4",
+      "segments": [
+        [
+          "2026-10-28 19-17-12.mov",
+          18,
+          23,
+          1,
+          "Autodesk published demo. Experimental. Source: Autodesk News, 2 Jun 2026"
+        ]
+      ]
+    }
+  ]
+}

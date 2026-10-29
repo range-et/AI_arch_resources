@@ -4,8 +4,9 @@ import json
 import sys
 from pathlib import Path
 doc=globals().get('__rhino_doc__') or Rhino.RhinoDoc.ActiveDoc
-root=Path('/Users/r2d2/Desktop/AI_arch_resources')
+root=Path('/Users/r2d2/Desktop/AI_arch_resources/demo-2-commands')
 if str(root) not in sys.path:sys.path.insert(0,str(root))
+sys.path.insert(0,str(root.parent/'tools'))
 from demo_view import label,frame
 breps=[o for o in doc.Objects if isinstance(o.Geometry,Rhino.Geometry.Brep)]
 assert len(breps)==1

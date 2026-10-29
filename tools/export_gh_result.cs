@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 var d=Grasshopper.Instances.ActiveCanvas.Document;
+d.PreviewMode=Grasshopper.Kernel.GH_PreviewMode.Disabled;
 var c=d.Objects.OfType<Grasshopper.Kernel.GH_Component>().First(o=>o.Name=="Parametric tower"||o.Name=="Toronto RD envelope");
 bool tower=c.Name=="Parametric tower";
 var control=d.Objects.OfType<Grasshopper.Kernel.Special.GH_NumberSlider>().First(o=>o.NickName==(tower?"Total twist":"Lot depth"));
@@ -15,7 +16,14 @@ int n=0;
 for(int i=1;i<c.Params.Output.Count-1;i++){
  var colour=tower?(i==1?System.Drawing.Color.BurlyWood:System.Drawing.Color.SteelBlue):(i==2?System.Drawing.Color.RoyalBlue:i==3?System.Drawing.Color.Coral:System.Drawing.Color.DimGray);
  var a=new Rhino.DocObjects.ObjectAttributes();a.Name=c.Params.Output[i].Name;a.ObjectColor=colour;a.ColorSource=Rhino.DocObjects.ObjectColorSource.ColorFromObject;
- if(!tower&&i==2)a.SetDisplayModeOverride(Rhino.Display.DisplayModeDescription.FindByName("Wireframe"));
+ if(!tower&&i==2){
+  var material=new Rhino.DocObjects.Material();material.Name="Zoning envelope - 82 percent transparent";material.DiffuseColor=System.Drawing.Color.FromArgb(72,151,221);material.Transparency=0.82;
+  a.MaterialIndex=__rhino_doc__.Materials.Add(material);a.MaterialSource=Rhino.DocObjects.ObjectMaterialSource.MaterialFromObject;
+  var mode=Rhino.Display.DisplayModeDescription.FindByName("Teaching zoning envelope");
+  if(mode==null){var id=Rhino.Display.DisplayModeDescription.CopyDisplayMode(Rhino.Display.DisplayModeDescription.FindByName("Ghosted").Id,"Teaching zoning envelope");mode=Rhino.Display.DisplayModeDescription.GetDisplayMode(id);}
+  var display=mode.DisplayAttributes;display.DisableTransparency=false;display.FrontMaterialTransparency=.82;display.BackMaterialTransparency=.82;display.FrontOverrideObjectTransparency=true;display.BackOverrideObjectTransparency=true;Rhino.Display.DisplayModeDescription.UpdateDisplayMode(mode);
+  a.SetDisplayModeOverride(mode);
+ }
  foreach(var goo in c.Params.Output[i].VolatileData.AllData(true)){
   var g=goo.ScriptVariable() as Rhino.Geometry.GeometryBase;if(g==null)continue;
   if(!g.IsValid)throw new Exception("Invalid output geometry");
@@ -24,6 +32,8 @@ for(int i=1;i<c.Params.Output.Count-1;i++){
   __rhino_doc__.Objects.Add(g,a);bounds.Union(g.GetBoundingBox(true));n++;
  }
 }
+// Copy material entries so transparency also survives opening the saved model.
+foreach(var m in __rhino_doc__.Materials)file.Materials.Add(m);
 file.Write(System.IO.Path.Combine(root,stem+"-"+suffix+".3dm"),8);
 var report=c.Params.Output.Last().VolatileData.AllData(true).First().ToString();
 System.IO.File.WriteAllText(System.IO.Path.Combine(root,stem+"-"+suffix+".json"),report);

@@ -1,0 +1,41 @@
+{
+  "presentation": "https://docs.google.com/presentation/d/1VEH2NRa5f1dJzQgTBd2cGdW-wjFdS8-PpCOyl6bzqpc/edit",
+  "drive_folder": "https://drive.google.com/drive/folders/1w5MZsFxoDlH3Q19ST_Q19Ovj_RMfG8sv",
+  "videos": [
+    {
+      "slide": 16,
+      "file": "01-rhino-mcp-install.mp4",
+      "drive_url": "https://drive.google.com/file/d/1aEfWHf7EmD6h96eqbHDVOcjgFRjWDG5R/view"
+    },
+    {
+      "slide": 18,
+      "file": "02-command-selection.mp4",
+      "drive_url": "https://drive.google.com/file/d/1_-ab4s-lmkJWcmXThboMEvX0hWmRzaih/view"
+    },
+    {
+      "slide": 20,
+      "file": "03-habitat-prompt.mp4",
+      "drive_url": "https://drive.google.com/file/d/1RQWbFba7dZ_QQY4YsEfxXbDGIM31zids/view"
+    },
+    {
+      "slide": 22,
+      "file": "04-parametric-tower.mp4",
+      "drive_url": "https://drive.google.com/file/d/1-x5DCYi2zG3xEXzItEw-q0JOOv9kgACs/view"
+    },
+    {
+      "slide": 24,
+      "file": "05-lbm-to-grasshopper.mp4",
+      "drive_url": "https://drive.google.com/file/d/1w1r7VjY-mhF9pwvcpQ9kEi0EgE8Sl6U-/view"
+    },
+    {
+      "slide": 26,
+      "file": "20-toronto-zoning.mp4",
+      "drive_url": "https://drive.google.com/file/d/1IVOUMlWX8KO5MDMrCkC21wrkowsy_-rz/view"
+    },
+    {
+      "slide": 28,
+      "file": "21-autodesk-published-demo.mp4",
+      "drive_url": "https://drive.google.com/file/d/1p5rzNWQZg_cILlfB8iDLXZzdFXTIyjvm/view"
+    }
+  ]
+}

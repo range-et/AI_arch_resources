@@ -1,26 +1,26 @@
 # AI in Architecture
 
-The presentation and final demo files are in this folder. Open **AI in Architecture - Presentation.pptx** and play the videos at the matching slides. The same edits are saved in the [original Google Slides deck](https://docs.google.com/presentation/d/1VEH2NRa5f1dJzQgTBd2cGdW-wjFdS8-PpCOyl6bzqpc/edit).
+The root contains the presentation and this guide. Each numbered demo folder holds its video, code, models and reports. Play the MP4s inside the [Google Slides deck](https://docs.google.com/presentation/d/1VEH2NRa5f1dJzQgTBd2cGdW-wjFdS8-PpCOyl6bzqpc/edit).
 
 ## Videos for the talk
 
 | Slide | Video | Length | What it shows |
 | --- | --- | --- | --- |
-| 15 | [Rhino MCP installation](01-rhino-mcp-install.mp4) | 1:54 | Package download and installation, Rhino restart, Codex connection, listener start and a torus made through MCP. |
-| 16 | [Rhino command selection](02-command-selection.mp4) | 0:40 | Radial profile, Revolve, Cap and a valid closed dome. |
-| 17 | [Build Habitat 67](03-habitat-prompt.mp4) | 0:29 | Run a coordinate script and inspect its approximate massing. |
-| 18 | [Parametric tower](04-parametric-tower.mp4) | 1:06 | Create a GH definition, run its Python component and change twist from 0 to 60 degrees. |
-| 19 | [LBM to Grasshopper](05-lbm-to-grasshopper.mp4) | 1:52 | Read the source, inspect the port, build and run the GH tool, move a footprint and compare solved fields. |
-| 20 | [Toronto zoning example](20-toronto-zoning.mp4) | 1:14 | Read official clauses, run the GH component and change lot depth. |
-| 21 | [Autodesk published demo](21-autodesk-published-demo.mp4) | 0:23 | An attributed excerpt of Autodesk's experimental Building Layout Explorer. |
+| 16 | [Rhino MCP installation](demo-1-install/01-rhino-mcp-install.mp4) | 1:54 | Package download and installation, Rhino restart, Codex connection, listener start and a torus made through MCP. |
+| 18 | [Rhino command selection](demo-2-commands/02-command-selection.mp4) | 0:40 | Radial profile, Revolve, Cap and a valid closed dome. |
+| 20 | [Build Habitat 67](demo-3-habitat/03-habitat-prompt.mp4) | 0:29 | Run a coordinate script and inspect its approximate massing. |
+| 22 | [Parametric tower](demo-4-tower/04-parametric-tower.mp4) | 1:06 | Create a GH definition, run its Python component and change twist from 0 to 60 degrees. |
+| 24 | [LBM to Grasshopper](demo-5-lbm/05-lbm-to-grasshopper.mp4) | 1:52 | Read the source, inspect the port, build and run the GH tool, move a footprint and compare solved fields. |
+| 26 | [Toronto zoning example](demo-6-zoning/20-toronto-zoning.mp4) | 1:07 | Read official clauses, run the GH component and change lot depth. |
+| 28 | [Autodesk published demo](demo-7-autodesk/21-autodesk-published-demo.mp4) | 0:23 | An attributed excerpt of Autodesk's experimental Building Layout Explorer. |
 
 All videos were captured with **OBS Studio**. They are silent, with captions. The edited videos combine process footage and result shots. Faster sections are labelled. The local demos use working Rhino and Grasshopper scripts. The Autodesk clip is the vendor's published example; it was not generated in a local Forma account.
 
-Play the MP4 files separately during the talk. They are **not embedded** in the deck. Speaker notes name the matching file and explain the inputs, checks and sources. Slide 21 retains the original keynote link as an additional reference.
+Each explanation now has a following slide with the actual Drive MP4 inserted as a playable video. Click the video in slideshow mode. The files are in the UofT Drive folder. Use the online Google Slides deck for playback. The PowerPoint export retains poster images and Drive links. Keep the local MP4s as a backup. The Autodesk explanation retains the original keynote link as an additional reference.
 
 ## Open the tools
 
-Use Rhino 8 with Grasshopper and the Python 3 component. These demos ran in Rhino 8.36 on Apple Silicon. Keep the files together when copying this folder.
+Use Rhino 8 with Grasshopper and the Python 3 component. These demos ran in Rhino 8.36 on Apple Silicon. Keep each demo folder intact when copying the tools.
 
 | Tool | Open in Grasshopper | Change | Expected result |
 | --- | --- | --- | --- |
@@ -28,11 +28,11 @@ Use Rhino 8 with Grasshopper and the Python 3 component. These demos ran in Rhin
 | Flow slice | `05-lbm-tool.gh` | **Middle block shift**: 0 to -12 | A different obstacle mask and flow field. Both reports show finite values and positive density. |
 | Toronto lot | `20-toronto-envelope.gh` | **Lot depth**: 36 to 30 | Rear setback changes from 9 m to 7.5 m. Example floor area changes from 324 m² to 270 m². |
 
-The GH files contain their component scripts. The flow component loads `lbm_solver.py` and `lbm_core.py` from this folder. Its `# r: numpy` directive loads NumPy through Rhino's Python environment. The zoning component loads `zoning_rules.py` and `toronto-lot.json`. Wait for the initial solution before changing a slider.
+The GH files contain their component scripts. The flow component loads `lbm_solver.py` and `lbm_core.py` from its demo folder. Its `# r: numpy` directive loads NumPy through Rhino's Python environment. The zoning component loads `zoning_rules.py` and `toronto-lot.json`. Wait for the initial solution before changing a slider.
 
 `build_parametric_gh.cs`, `build_lbm_gh.cs` and `build_zoning_gh.cs` rebuild the definitions through Rhino MCP's `run_csharp` tool. Each creates a new GH document. Change the `root` path in these builders if you move the folder. The standalone Rhino scripts also have a `root` path to update when relocating them.
 
-`export_gh_result.cs` exports the active tower or zoning solution to Rhino and saves its model and report. `export_lbm.cs` does the same for the flow slice. Exports help when GH preview disappears after hiding its window. The recordings show the component inputs and reports, then the exported geometry.
+`tools/export_gh_result.cs` exports the active tower or zoning solution to Rhino and saves its model and report. `export_lbm.cs` does the same for the flow slice. Exports help when GH preview disappears after hiding its window. The recordings show the component inputs and reports, then the exported geometry.
 
 ## Rhino MCP installation
 
@@ -79,10 +79,26 @@ The GH tool uses a simplified box for selected geometric limits and a two-storey
 With Python, NumPy and rhino3dm installed:
 
 ```sh
-python check_lbm.py
-python verify_demos.py
+python demo-5-lbm/check_lbm.py
+python tools/verify_demos.py
 ```
 
-`05-lbm-checks.json` records a standalone reproduction of both GH flow results. `demo-checks.json` records model readback, zoning calculations, slide labels and video formats. All three GH files were reopened and solved without component errors before delivery.
+`05-lbm-checks.json` records a standalone reproduction of both GH flow results. `tools/demo-checks.json` records model readback, zoning calculations, slide labels and video formats. All three GH files were reopened and solved without component errors before delivery.
 
-All final code, models, reports, videos and the presentation are directly at the repository root. **`working/` is gitignored**. It holds notes, old attempts, raw OBS recordings, local dependencies and temporary cuts. `recordings.json` lists the source times and edits. `edit_recordings.py` recreates the final cuts from the raw MOV files using ffmpeg and Pillow.
+The root holds the deck, README, sources and demo plan. Numbered demo folders hold their final artifacts. Shared recording, export and check scripts are in `tools/`. **`working/` is gitignored**. It holds notes, old attempts, raw OBS recordings, local dependencies and temporary cuts. `tools/recordings.json` lists the source times and edits. `tools/edit_recordings.py` recreates the final cuts from the raw MOV files using ffmpeg and Pillow.
+
+## Folder map
+
+| Folder | Contents |
+| --- | --- |
+| `demo-1-install/` | Rhino MCP installation and torus check |
+| `demo-2-commands/` | Native command sequence and dome |
+| `demo-3-habitat/` | Approximate Habitat massing |
+| `demo-4-tower/` | Parametric tower |
+| `demo-5-lbm/` | Source port, flow tool and two layouts |
+| `demo-6-zoning/` | Toronto rules, translucent envelope and annotated models |
+| `demo-7-autodesk/` | Attributed vendor excerpt |
+| `tools/` | Shared scripts, video edit manifest and checks |
+| `working/` | Ignored scratch files, old attempts and raw recordings |
+
+The zoning tool uses an 82% transparent blue preview. The baked model uses a dedicated display mode with transparency on both front and back faces. `demo-6-zoning/annotate_zoning.py` adds the setback and height labels and saves `20-toronto-annotated-a.3dm` and `20-toronto-annotated-b.3dm`. The example house sits 0.1 m inside the envelope at the front and sides so the surfaces remain distinct. Its floor area still follows the same FSI cap.

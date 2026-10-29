@@ -1,10 +1,10 @@
-// Run inside Rhino MCP's run_csharp tool. Rebuilds the teaching definition in a NEW GH document.
-// All code and the GH file stay at the repository root.
-var root="/Users/r2d2/Desktop/AI_arch_resources";
+// Run through Rhino MCP. Creates a NEW definition. Edit root for another computer.
+using System;
+using System.Linq;
+var root="/Users/r2d2/Desktop/AI_arch_resources/demo-6-zoning";
 var canvas=Grasshopper.Instances.ActiveCanvas;
 var doc=new Grasshopper.Kernel.GH_Document();
-doc.FilePath=System.IO.Path.Combine(root,"05-lbm-tool.gh");
-canvas.Document=doc;
+// Shared construction helpers for the teaching GH definitions.
 var proxy=Grasshopper.Instances.ComponentServer.ObjectProxies.First(p=>p.Guid==new Guid("719467e6-7cf5-4848-99b0-c5dd57e5442c"));
 Grasshopper.Kernel.GH_Component MakeScript(string name,string file,string[] inputs,string[] outputs,int x,int y){
  var comp=(Grasshopper.Kernel.GH_Component)Grasshopper.Instances.ComponentServer.EmitObjectProxy(proxy.Guid).CreateInstance();
@@ -29,21 +29,26 @@ Grasshopper.Kernel.Special.GH_NumberSlider Slider(string name,decimal min,decima
 Grasshopper.Kernel.Special.GH_Panel Panel(string text,int x,int y,int width,int height){
  var p=new Grasshopper.Kernel.Special.GH_Panel();p.CreateAttributes();p.UserText=text;p.Attributes.Pivot=new System.Drawing.PointF(x,y);p.Attributes.Bounds=new System.Drawing.RectangleF(x,y,width,height);doc.AddObject(p,false);return p;
 }
-var goal=Panel("SOURCE: github.com/jviquerat/lbm\nD2Q9 / TRT\n\nTASK\nAdapt this code into a GH tool.\nClosed footprints become obstacles.\nMove one footprint and solve again.\n\nLattice units. 2D laminar teaching model.\nSee lbm_prompt.txt for the full prompt.",20,20,360,230);
-var geometry=MakeScript("Building footprints","lbm_footprints.py",new[]{"shift"},new[]{"footprints","buildings"},440,250);
-var solver=MakeScript("LBM flow slice","lbm_grasshopper.py",new[]{"footprints","steps","inlet","tau"},new[]{"mesh","vectors","report"},800,250);
-var shift=Slider("Middle block shift",-15,4,0,180,285,0);
-var steps=Slider("Time steps",100,6000,1800,480,420,0);
-var inlet=Slider("Inlet speed",.01m,.06m,.03m,480,470,3);
-var tau=Slider("Tau",.55m,1.2m,.65m,480,520,2);
-geometry.Params.Input[0].AddSource(shift);
-solver.Params.Input[0].AddSource(geometry.Params.Output[1]);
-solver.Params.Input[1].AddSource(steps);solver.Params.Input[2].AddSource(inlet);solver.Params.Input[3].AddSource(tau);
-var report=Panel("",1100,190,430,570);report.AddSource(solver.Params.Output[3]);
-var io=new Grasshopper.Kernel.GH_DocumentIO();io.Document=doc;
-if(!io.SaveQuiet(doc.FilePath))throw new Exception("GH save failed");
-canvas.Viewport.Zoom=0.9f;
-canvas.Viewport.Target=new System.Drawing.Point(0,0);
-canvas.Refresh();
-Console.WriteLine("Saved new GH tool: "+doc.FilePath+". Solver="+solver.InstanceGuid+". Shift="+shift.InstanceGuid);
-doc.NewSolution(false);
+doc.FilePath=System.IO.Path.Combine(root,"20-toronto-envelope.gh");canvas.Document=doc;
+Panel("PROMPT\nUse selected Toronto RD rules for a fictional lot.\nShow a translucent blue envelope and a solid house.\nCap the house by setbacks, height, coverage and FSI.\n\nASSUMED: RD(f15)(d0.6), 35% coverage, no HT value.\nCHANGE: lot depth 36 to 30 metres.",20,20,560,160);
+var model=MakeScript("Toronto RD envelope","zoning_grasshopper.py",new[]{"lot_width","lot_depth"},new[]{"lot","envelope","house","report"},490,290);
+var width=Slider("Lot width",15,21,15,40,240,1);
+var depth=Slider("Lot depth",30,48,36,40,300,1);
+model.Params.Input[0].AddSource(width);model.Params.Input[1].AddSource(depth);
+var report=Panel("",720,20,560,660);report.AddSource(model.Params.Output[4]);
+
+// Custom previews keep the envelope translucent in the live GH tool.
+model.Hidden=true;
+for(int k=1;k<=3;k++){
+ var preview=(Grasshopper.Kernel.GH_Component)Grasshopper.Instances.ComponentServer.EmitObjectProxy(new Guid("537b0419-bbc2-4ff4-bf08-afe526367b2c")).CreateInstance();
+ preview.CreateAttributes();preview.NickName=k==2?"Blue envelope 82% transparent":k==3?"Solid example house":"Lot outline";
+ preview.Attributes.Pivot=new System.Drawing.PointF(500,440+70*k);doc.AddObject(preview,false);
+ preview.Params.Input[0].AddSource(model.Params.Output[k]);
+ var colour=k==2?System.Drawing.Color.FromArgb(72,151,221):k==3?System.Drawing.Color.FromArgb(216,125,78):System.Drawing.Color.FromArgb(45,58,70);
+ var material=new Grasshopper.Kernel.Types.GH_Material(new Rhino.Display.DisplayMaterial(colour,k==2?0.82:0.0));
+ ((Grasshopper.Kernel.Parameters.Param_OGLShader)preview.Params.Input[1]).SetPersistentData(material);
+}
+
+var io=new Grasshopper.Kernel.GH_DocumentIO();io.Document=doc;if(!io.SaveQuiet(doc.FilePath))throw new Exception("GH save failed");
+canvas.Viewport.Zoom=1f;canvas.Viewport.Target=new System.Drawing.Point(0,0);canvas.Refresh();doc.NewSolution(false);
+Console.WriteLine("Saved "+doc.FilePath);

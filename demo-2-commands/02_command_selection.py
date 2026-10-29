@@ -20,8 +20,9 @@ doc.Objects.UnselectAll();doc.Objects.Select(profile_id)
 print('PROMPT: Turn a radial profile into a closed dome.')
 print('COMMAND CHOICE: Revolve, then Cap. The profile rotates about the Z axis.')
 import sys
-root=Path('/Users/r2d2/Desktop/AI_arch_resources')
+root=Path('/Users/r2d2/Desktop/AI_arch_resources/demo-2-commands')
 if str(root) not in sys.path:sys.path.insert(0,str(root))
+sys.path.insert(0,str(root.parent/'tools'))
 from demo_view import label,frame
 label(doc,'PROMPT: Turn this radial section into a closed dome.','CHOSEN COMMANDS: Revolve > Cap > Check','Rotate the profile about the vertical Z axis.')
 frame(doc,Rhino.Geometry.BoundingBox(-2,-2,-1,12,2,14),'Front')

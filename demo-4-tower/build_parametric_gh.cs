@@ -1,7 +1,7 @@
 // Run through Rhino MCP. Creates a NEW definition. Edit root for another computer.
 using System;
 using System.Linq;
-var root="/Users/r2d2/Desktop/AI_arch_resources";
+var root="/Users/r2d2/Desktop/AI_arch_resources/demo-4-tower";
 var canvas=Grasshopper.Instances.ActiveCanvas;
 var doc=new Grasshopper.Kernel.GH_Document();
 // Shared construction helpers for the teaching GH definitions.
@@ -29,13 +29,14 @@ Grasshopper.Kernel.Special.GH_NumberSlider Slider(string name,decimal min,decima
 Grasshopper.Kernel.Special.GH_Panel Panel(string text,int x,int y,int width,int height){
  var p=new Grasshopper.Kernel.Special.GH_Panel();p.CreateAttributes();p.UserText=text;p.Attributes.Pivot=new System.Drawing.PointF(x,y);p.Attributes.Bounds=new System.Drawing.RectangleF(x,y,width,height);doc.AddObject(p,false);return p;
 }
-doc.FilePath=System.IO.Path.Combine(root,"20-toronto-envelope.gh");canvas.Document=doc;
-Panel("PROMPT\nUse selected Toronto RD rules for a fictional lot.\nShow lot, geometric limits, and a two-storey house.\nCap the house by setbacks, height, coverage and FSI.\n\nASSUMED: RD(f15)(d0.6), 35% coverage, no HT value.\nCHANGE: lot depth 36 to 30 metres.",20,20,560,160);
-var model=MakeScript("Toronto RD envelope","zoning_grasshopper.py",new[]{"lot_width","lot_depth"},new[]{"lot","envelope","house","report"},490,290);
-var width=Slider("Lot width",15,21,15,40,240,1);
-var depth=Slider("Lot depth",30,48,36,40,300,1);
-model.Params.Input[0].AddSource(width);model.Params.Input[1].AddSource(depth);
-var report=Panel("",720,20,560,660);report.AddSource(model.Params.Output[4]);
+doc.FilePath=System.IO.Path.Combine(root,"04-parametric-tower.gh");canvas.Document=doc;
+Panel("PROMPT\nCreate a tower with 12 square floor plates.\nAdd floor-count, storey-height and twist controls.\nKeep slabs and core as closed solids.\n\nCHANGE\nTotal twist: 0 to 60 degrees.",20,20,510,140);
+var tower=MakeScript("Parametric tower","parametric_tower.py",new[]{"floors","twist","storey_height"},new[]{"slabs","core","report"},490,260);
+var floors=Slider("Floors",6,20,12,40,220,0);
+var twist=Slider("Total twist",0,90,0,40,270,0);
+var height=Slider("Storey height",2.5m,5,3.2m,40,320,1);
+tower.Params.Input[0].AddSource(floors);tower.Params.Input[1].AddSource(twist);tower.Params.Input[2].AddSource(height);
+var report=Panel("",680,160,480,340);report.AddSource(tower.Params.Output[3]);
 
 var io=new Grasshopper.Kernel.GH_DocumentIO();io.Document=doc;if(!io.SaveQuiet(doc.FilePath))throw new Exception("GH save failed");
 canvas.Viewport.Zoom=1f;canvas.Viewport.Target=new System.Drawing.Point(0,0);canvas.Refresh();doc.NewSolution(false);

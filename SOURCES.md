@@ -30,6 +30,8 @@ The lot is fictional. The assumed label is RD(f15)(d0.6), with no site exception
 
 The presentation uses an attributed excerpt of Autodesk's published multi-family demonstration. It does not represent a model generated in this local session. The LOD 200 claim has been removed because these sources do not establish it. The original vendor recording is available from the announcement page.
 
+[Autodesk Forma’s LinkedIn video about unit mix controls](https://www.linkedin.com/posts/autodesk-forma_autodeskforma-formasitedesign-au2026-activity-7521625661078228992-DAQ8), published 29 October 2026, shows the updated Building Layout Explorer. The original 47.5-second video is saved as `demo-7-autodesk/22-autodesk-unit-mix-linkedin.mp4`. Its source and attribution are recorded in `22-autodesk-unit-mix-source.json`.
+
 ## LBM
 
 [Jonathan Viquerat's source](https://github.com/jviquerat/lbm), commit `64023fc76db2ddb681b2d4d24306a433e85f9555`, supplies the numerical routines in `lbm_core.py`. The MIT licence is in `LBM_LICENSE.txt`. The local wrapper and GH adapter are documented in `README.md`.

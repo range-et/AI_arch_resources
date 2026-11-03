@@ -13,12 +13,13 @@ import subprocess
 import sys
 import xml.etree.ElementTree as ET
 import zipfile
+from urllib.parse import urlparse, parse_qs
 
 ROOT = Path(__file__).resolve().parents[1]
 NS = {'a': 'http://schemas.openxmlformats.org/drawingml/2006/main',
       'p': 'http://schemas.openxmlformats.org/presentationml/2006/main',
       'r': 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'}
-def esc(s): return html.escape(s, quote=True)
+def esc(s): return html.escape(s, quote=True).replace('\n', '&#10;')
 
 def asset(path):
     digest = hashlib.sha256((ROOT/path).read_bytes()).hexdigest()[:10]
@@ -49,6 +50,19 @@ def soften_grid(path):
     svg = svg.replace('<defs>', '<defs>\n' + DOT_PATTERN, 1)
     path.write_text(svg)
 
+def source_key(url):
+    parsed = urlparse(url)
+    if 'drive.google.com' in parsed.netloc:
+        match = re.search(r'/d/([^/]+)', parsed.path)
+        return 'drive:' + match[1] if match else url
+    if parsed.netloc in ('www.youtube.com', 'youtube.com', 'youtu.be'):
+        video = parsed.path.strip('/') if parsed.netloc == 'youtu.be' else parse_qs(parsed.query).get('v', [''])[0]
+        return 'youtube:' + video
+    return url
+
+def qr_link(extra_class=''):
+    return '<a class="qr ' + extra_class + '" href="https://range-et.github.io/AI_arch_resources/"><img src="web/deck-qr.svg" width="246" height="284" alt="QR code: open the presentation and demos"><span>Presentation and demos</span><small>range-et.github.io/AI_arch_resources</small></a>'
+
 def build(pdf):
     out = ROOT / 'web/slides'
     out.mkdir(parents=True, exist_ok=True)
@@ -69,7 +83,7 @@ def build(pdf):
             if relpath in z.namelist():
                 for r in ET.fromstring(z.read(relpath)):
                     url = r.attrib.get('Target', '')
-                    if r.attrib.get('Type', '').endswith('/hyperlink') and url.startswith(('https://', 'http://')):
+                    if r.attrib.get('Id') != 'rIdDeckQRLink' and r.attrib.get('Type', '').endswith('/hyperlink') and url.startswith(('https://', 'http://')):
                         labels = [e.text or '' for run in tree.findall('.//a:r', NS) if any(h.attrib.get('{' + NS['r'] + '}id') == r.attrib['Id'] for h in run.findall('.//a:hlinkClick', NS)) for e in run.findall('.//a:t', NS)]
                         links.append({'url': url, 'label': ''.join(labels).strip() or 'Source'})
             slides.append({'number': len(slides)+1, 'title': title, 'text': '\n'.join(texts), 'links': links})
@@ -80,7 +94,14 @@ def build(pdf):
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
         list(pool.map(render, slides))
     videos = json.loads((ROOT/'tools/youtube-videos.json').read_text())['videos']
-    by_slide = {v['slide']: v for v in videos}
+    by_source = {source_key(v['source_url']): v for v in videos}
+    by_slide = {}
+    for slide in slides:
+        matches = [by_source[source_key(link['url'])] for link in slide['links'] if source_key(link['url']) in by_source]
+        if matches:
+            assert len(matches) == 1, f"Multiple videos linked from slide {slide['number']}"
+            by_slide[slide['number']] = {**matches[0], 'slide': slide['number']}
+    assert len(by_slide) == len(videos), 'A demo video is missing from the source deck.'
     sections = []
     for s in slides:
         n = s['number']; title = s['title']; text = s['text']
@@ -90,8 +111,10 @@ def build(pdf):
             v = by_slide[n]; title = v['title']; s['video'] = v
             body = f'<iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/{esc(v["id"])}?rel=0&amp;playsinline=1&amp;enablejsapi=1" title="{esc(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
             extra = f'<div class="video-links"><span>{esc(title)}</span><span><a href="https://youtu.be/{esc(v["id"])}" target="_blank" rel="noopener">YouTube</a> · <a href="{esc(v["path"])}">MP4 backup</a></span></div>'
-        if title.strip().lower() in ('q&a', 'q & a') or n == 33:
-            body = '<div class="qna"><h2>Questions and Answers</h2><a class="qr" href="https://range-et.github.io/AI_arch_resources/"><img src="web/deck-qr.svg" width="180" height="180" alt="QR code: open the presentation and demos"><span>Presentation and demos</span><small>range-et.github.io/AI_arch_resources</small></a><div class="qna-footer">AI in Architecture | Indrajeet Haldar</div></div>'
+        if n == 1:
+            body += qr_link('intro-qr')
+        if title.strip().lower() in ('q&a', 'q & a', 'questions and answers'):
+            body = '<div class="qna"><h2>Questions and Answers</h2>' + qr_link() + '<div class="qna-footer">AI in Architecture | Indrajeet Haldar</div></div>'
         sections.append(f'<section class="slide" id="slide-{n:02}" aria-label="Slide {n}: {esc(title)}"><div class="slide-content"><div class="frame">{body}</div>{extra}</div></section>')
     options = ''.join(f'<option value="{s["number"]-1}">{s["number"]}. {esc(by_slide.get(s["number"], s)["title"])}</option>' for s in slides)
     page = f'''<!doctype html>

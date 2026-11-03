@@ -1,3 +1,5 @@
+Current web deck (3 November 2026): 58 slides. Videos are on slides 29, 31, 34, 36, 41, 46 and 48. QR codes are on the introduction (1) and Q&A (55). The planning notes below describe the original demo preparation.
+
 # Demo plan
 
 The work followed this order: clean the repository, record the real Rhino MCP installation, record the LBM adaptation, then finish the other slide demos. The deck and guides are at the root. Final artifacts are grouped in numbered demo folders. Older attempts and working notes are in the ignored `working/` folder.

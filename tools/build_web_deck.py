@@ -13,7 +13,7 @@ import subprocess
 import sys
 import xml.etree.ElementTree as ET
 import zipfile
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs, quote
 
 ROOT = Path(__file__).resolve().parents[1]
 NS = {'a': 'http://schemas.openxmlformats.org/drawingml/2006/main',
@@ -23,7 +23,7 @@ def esc(s): return html.escape(s, quote=True).replace('\n', '&#10;')
 
 def asset(path):
     digest = hashlib.sha256((ROOT/path).read_bytes()).hexdigest()[:10]
-    return f'{path}?v={digest}'
+    return f'{quote(path)}?v={digest}'
 
 DOT_PATTERN = '<pattern id="web-dot-grid" width="15" height="15" patternUnits="userSpaceOnUse"><circle cx="7.5" cy="7.5" r="0.5" fill="#c9ced4" fill-opacity="0.65"/></pattern>'
 GRID_IMAGE_HASHES = {
@@ -80,13 +80,17 @@ def build(pdf):
             title = next((p for p in paragraphs if p and not p.startswith('AI in Architecture |')), 'Slide')
             relpath = 'ppt/slides/_rels/' + Path(target).name + '.rels'
             links = []
+            has_qr = False
             if relpath in z.namelist():
                 for r in ET.fromstring(z.read(relpath)):
                     url = r.attrib.get('Target', '')
+                    if url.rstrip('/') == 'https://range-et.github.io/AI_arch_resources':
+                        has_qr = True
+                        continue
                     if r.attrib.get('Id') != 'rIdDeckQRLink' and r.attrib.get('Type', '').endswith('/hyperlink') and url.startswith(('https://', 'http://')):
                         labels = [e.text or '' for run in tree.findall('.//a:r', NS) if any(h.attrib.get('{' + NS['r'] + '}id') == r.attrib['Id'] for h in run.findall('.//a:hlinkClick', NS)) for e in run.findall('.//a:t', NS)]
                         links.append({'url': url, 'label': ''.join(labels).strip() or 'Source'})
-            slides.append({'number': len(slides)+1, 'title': title, 'text': '\n'.join(texts), 'links': links})
+            slides.append({'number': len(slides)+1, 'title': title, 'text': '\n'.join(texts), 'links': links, 'has_qr': has_qr})
     def render(slide):
         n = slide['number']
         subprocess.run(['pdftocairo', '-svg', '-f', str(n), '-l', str(n), str(pdf), str(out/f'slide-{n:02}.svg')], check=True)
@@ -112,14 +116,17 @@ def build(pdf):
             body = f'<iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/{esc(v["id"])}?rel=0&amp;playsinline=1&amp;enablejsapi=1" title="{esc(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
             extra = f'<div class="video-links"><span>{esc(title)}</span><span><a href="https://youtu.be/{esc(v["id"])}" target="_blank" rel="noopener">YouTube</a> · <a href="{esc(v["path"])}">MP4 backup</a></span></div>'
         if n == 1:
-            body += qr_link('intro-qr')
+            if s['has_qr']:
+                body += '<a class="qr intro-qr intro-qr-hit" href="https://range-et.github.io/AI_arch_resources/" aria-label="QR code: open the presentation and demos"></a>'
+            else:
+                body += qr_link('intro-qr')
         if title.strip().lower() in ('q&a', 'q & a', 'questions and answers'):
             body = '<div class="qna"><h2>Questions and Answers</h2>' + qr_link() + '<div class="qna-footer">AI in Architecture | Indrajeet Haldar</div></div>'
         sections.append(f'<section class="slide" id="slide-{n:02}" aria-label="Slide {n}: {esc(title)}"><div class="slide-content"><div class="frame">{body}</div>{extra}</div></section>')
     options = ''.join(f'<option value="{s["number"]-1}">{s["number"]}. {esc(by_slide.get(s["number"], s)["title"])}</option>' for s in slides)
     page = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name="description" content="AI in Architecture: a presentation with Rhino, Grasshopper and zoning demos."><title>AI in Architecture — Indrajeet Haldar</title><link rel="icon" href="data:,"><link rel="stylesheet" href="{asset('web/deck.css')}"><script src="web/deck.js" defer></script></head>
-<body><a class="skip" href="#slides">Skip to slides</a><header><a href="#slide-01" class="brand">AI in Architecture</a><nav aria-label="Presentation controls"><button id="prev" aria-label="Previous slide">←</button><label><span class="sr-only">Go to slide</span><select id="jump">{options}</select></label><button id="next" aria-label="Next slide">→</button><button id="fullscreen">Full screen</button><a href="https://github.com/range-et/AI_arch_resources">Files</a></nav></header><main id="slides">{''.join(sections)}</main><footer>Scroll or use ↑ ↓ to move through the slides. Videos have captions and no audio. <a href="AI%20in%20Architecture%20-%20Presentation.pptx">PowerPoint</a> · <a href="https://github.com/range-et/AI_arch_resources#readme">Demo guide and sources</a></footer></body></html>'''
+<body><a class="skip" href="#slides">Skip to slides</a><header><a href="#slide-01" class="brand">AI in Architecture</a><nav aria-label="Presentation controls"><button id="prev" aria-label="Previous slide">←</button><label><span class="sr-only">Go to slide</span><select id="jump">{options}</select></label><button id="next" aria-label="Next slide">→</button><button id="fullscreen">Full screen</button><a href="https://github.com/range-et/AI_arch_resources">Files</a></nav></header><main id="slides">{''.join(sections)}</main><footer>Scroll or use ↑ ↓ to move through the slides. Videos have captions and no audio. <a href="{asset('AI in Architecture - Presentation.pptx')}">PowerPoint</a> · <a href="{asset('AI in Architecture - Presentation.pdf')}">PDF</a> · <a href="https://github.com/range-et/AI_arch_resources#readme">Demo guide and sources</a></footer></body></html>'''
     (ROOT/'index.html').write_text(page)
     (ROOT/'web/slides.json').write_text(json.dumps(slides, indent=2, ensure_ascii=False)+'\n')
     (ROOT/'.nojekyll').touch()

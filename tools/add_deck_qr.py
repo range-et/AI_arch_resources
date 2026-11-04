@@ -34,6 +34,10 @@ def main():
         shapes = tree.find('p:cSld/p:spTree', NS)
         for shape in list(shapes):
             if any(x.get('name') == 'Presentation website QR' for x in shape.findall('.//p:cNvPr', NS)): shapes.remove(shape)
+        relpath = 'ppt/slides/_rels/' + Path(name).name + '.rels'
+        existing_rels = ET.fromstring(files[relpath])
+        if any(rel.get('Target', '').rstrip('/') == URL.rstrip('/') for rel in existing_rels):
+            continue
         shape_id = 1 + max(int(x.get('id', '0')) for x in tree.findall('.//p:cNvPr', NS))
         if qna:
             for shape in shapes.findall('p:sp', NS):
@@ -44,6 +48,8 @@ def main():
         files[name] = ET.tostring(tree, encoding='utf-8', xml_declaration=True)
         relpath = 'ppt/slides/_rels/' + Path(name).name + '.rels'
         rels = ET.fromstring(files[relpath])
+        if any(rel.get('Target', '').rstrip('/') == URL.rstrip('/') for rel in rels):
+            continue  # The Google Slides export already contains this QR.
         for rel in list(rels):
             if rel.get('Id') in ('rIdDeckQRImage', 'rIdDeckQRLink'): rels.remove(rel)
         ET.SubElement(rels, '{'+REL+'}Relationship', Id='rIdDeckQRImage', Type=R+'/image', Target='../media/presentation-website-qr.png')

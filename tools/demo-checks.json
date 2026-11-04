@@ -40,10 +40,14 @@
     "invalid_lots_rejected": true
   },
   "presentation": {
-    "slides": 37,
-    "demo_labels_and_notes_present": true,
+    "slides": 60,
+    "demo_labels_present": true,
     "seven_video_slides_in_order": true,
-    "export_media": "Drive-linked posters. Google Slides contains native playable videos."
+    "qr_slides": [
+      1,
+      57
+    ],
+    "export_media": "Drive-linked posters and a YouTube poster. Google Slides contains native playable videos."
   },
   "zoning_display": {
     "envelope_transparency": 0.82,
@@ -84,5 +88,10 @@
     "duration_seconds": 23.0,
     "codec": "h264",
     "dimensions": "1920x1080"
+  },
+  "22-autodesk-unit-mix-linkedin.mp4": {
+    "duration_seconds": 47.5,
+    "codec": "h264",
+    "dimensions": "1272x720"
   }
 }

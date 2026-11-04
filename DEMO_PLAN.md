@@ -1,4 +1,4 @@
-Current web deck (3 November 2026): 58 slides. Videos are on slides 29, 31, 34, 36, 41, 46 and 48. QR codes are on the introduction (1) and Q&A (55). The planning notes below describe the original demo preparation.
+Current web deck (3 November 2026): 60 slides. Videos are on slides 29, 31, 34, 37, 42, 47 and 50. QR codes are on the introduction (1) and Q&A (57). The planning notes below describe the original demo preparation.
 
 # Demo plan
 

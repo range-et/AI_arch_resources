@@ -2,7 +2,7 @@
 
 Open the [web presentation](https://range-et.github.io/AI_arch_resources/). Scroll through the slides or use the arrow keys. Click **Full screen** for the talk. The seven demos play through YouTube, with an MP4 backup under each video.
 
-The webpage follows the 58-slide Google Slides export from 3 November 2026. The introduction (slide 1) and Q&A (slide 55) have a QR code made with [Mnemosyne](https://range-et.github.io/mnemosyne/), linking to this presentation. Each numbered demo folder holds its video, code, models and reports. The [Google Slides deck](https://docs.google.com/presentation/d/1VEH2NRa5f1dJzQgTBd2cGdW-wjFdS8-PpCOyl6bzqpc/edit) remains the editable source.
+The webpage follows the 60-slide Google Slides export from 3 November 2026. The introduction (slide 1) and Q&A (slide 57) have a QR code made with [Mnemosyne](https://range-et.github.io/mnemosyne/), linking to this presentation. Each numbered demo folder holds its video, code, models and reports. The root PowerPoint and PDF are fresh exports of the same online deck. The [Google Slides deck](https://docs.google.com/presentation/d/1VEH2NRa5f1dJzQgTBd2cGdW-wjFdS8-PpCOyl6bzqpc/edit) remains the editable source.
 
 ## Videos for the talk
 
@@ -11,10 +11,10 @@ The webpage follows the 58-slide Google Slides export from 3 November 2026. The 
 | 29 | [Rhino MCP installation](demo-1-install/01-rhino-mcp-install.mp4) | 1:54 | Package download and installation, Rhino restart, Codex connection, listener start and a torus made through MCP. |
 | 31 | [Rhino command selection](demo-2-commands/02-command-selection.mp4) | 0:40 | Radial profile, Revolve, Cap and a valid closed dome. |
 | 34 | [Build Habitat 67](demo-3-habitat/03-habitat-prompt.mp4) | 0:29 | Run a coordinate script and inspect its approximate massing. |
-| 36 | [Parametric tower](demo-4-tower/04-parametric-tower.mp4) | 1:06 | Create a GH definition, run its Python component and change twist from 0 to 60 degrees. |
-| 41 | [LBM to Grasshopper](demo-5-lbm/05-lbm-to-grasshopper.mp4) | 1:52 | Read the source, inspect the port, build and run the GH tool, move a footprint and compare solved fields. |
-| 46 | [Toronto zoning example](demo-6-zoning/20-toronto-zoning.mp4) | 1:07 | Read official clauses, run the GH component and change lot depth. |
-| 48 | [Autodesk unit mix demo](demo-7-autodesk/22-autodesk-unit-mix-linkedin.mp4) | 0:48 | Autodesk’s published Building Layout Explorer demo with unit mix controls. |
+| 37 | [Parametric tower](demo-4-tower/04-parametric-tower.mp4) | 1:06 | Create a GH definition, run its Python component and change twist from 0 to 60 degrees. |
+| 42 | [LBM to Grasshopper](demo-5-lbm/05-lbm-to-grasshopper.mp4) | 1:52 | Read the source, inspect the port, build and run the GH tool, move a footprint and compare solved fields. |
+| 47 | [Toronto zoning example](demo-6-zoning/20-toronto-zoning.mp4) | 1:07 | Read official clauses, run the GH component and change lot depth. |
+| 50 | [Autodesk unit mix demo](demo-7-autodesk/22-autodesk-unit-mix-linkedin.mp4) | 0:48 | Autodesk’s published Building Layout Explorer demo with unit mix controls. |
 
 All videos were captured with **OBS Studio**. They are silent, with captions. The edited videos combine process footage and result shots. Faster sections are labelled. The local demos use working Rhino and Grasshopper scripts. The Autodesk clip is the vendor's published example; it was not generated in a local Forma account.
 
@@ -108,7 +108,7 @@ The zoning tool uses an 82% transparent blue preview. The baked model uses a ded
 
 ## Update the web presentation
 
-The site is plain HTML, CSS and JavaScript. GitHub Pages serves `main` from the repository root. `index.html` is the entry point; `web/` holds the slide SVGs, navigation code and QR files. `tools/youtube-videos.json` lists the seven unlisted YouTube videos and their MP4 backups. The Q&A layout and introduction QR are made in HTML so the codes stay sharp. The downloadable PowerPoint also has both QR images. The other slide layouts come from the PDF export. The web build replaces the shared line-grid background with a faint dot pattern.
+The site is plain HTML, CSS and JavaScript. GitHub Pages serves `main` from the repository root. `index.html` is the entry point; `web/` holds the slide SVGs, navigation code and QR files. `tools/youtube-videos.json` lists the seven unlisted YouTube videos and their MP4 backups. The Q&A layout and introduction QR are made in HTML so the codes stay sharp. Google Slides and the downloadable PowerPoint also have both QR images. The other slide layouts come from the PDF export. The web build replaces the shared line-grid background with a faint dot pattern.
 
 After editing Google Slides, download both PowerPoint and PDF. Replace the root PowerPoint with the export, then run:
 
